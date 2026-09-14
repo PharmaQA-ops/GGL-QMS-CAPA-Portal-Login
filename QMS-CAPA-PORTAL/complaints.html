@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
-<title>QMS Portal | Register Complaint</title>
+<title>QMS Portal | Complaint Register</title>
 
 <style>
     * {
@@ -19,10 +19,6 @@
         font-family: Arial, Helvetica, sans-serif;
         background: #f4f6f8;
         color: #1f2933;
-    }
-
-    .app {
-        min-height: 100vh;
     }
 
     /* ================================
@@ -186,25 +182,47 @@
     .top-actions {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 9px;
     }
 
-    .back-button {
-        padding: 8px 13px;
+    .button {
+        height: 38px;
 
-        background: #ffffff;
+        padding: 0 14px;
 
-        border: 1px solid #d1d5db;
         border-radius: 7px;
 
-        color: #374151;
+        font-family: inherit;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        cursor: pointer;
 
         text-decoration: none;
 
-        font-size: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .back-button:hover {
+    .button-primary {
+        background: #17365d;
+        border: 1px solid #17365d;
+        color: #ffffff;
+    }
+
+    .button-primary:hover {
+        background: #102a49;
+    }
+
+    .button-secondary {
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        color: #374151;
+    }
+
+    .button-secondary:hover {
         background: #f9fafb;
     }
 
@@ -214,13 +232,7 @@
 
     .content {
         padding: 28px 30px 45px;
-
-        max-width: 1200px;
     }
-
-    /* ================================
-       FORM INTRO
-    ================================= */
 
     .intro {
         margin-bottom: 22px;
@@ -238,403 +250,371 @@
         color: #6b7280;
 
         font-size: 12px;
-        line-height: 1.5;
     }
 
     /* ================================
-       FORM CARD
+       SUMMARY
     ================================= */
 
-    .form-card {
+    .summary-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+
+        gap: 14px;
+
+        margin-bottom: 18px;
+    }
+
+    .summary-card {
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 9px;
+
+        padding: 16px;
+    }
+
+    .summary-card span {
+        display: block;
+
+        color: #6b7280;
+
+        font-size: 10px;
+
+        margin-bottom: 7px;
+    }
+
+    .summary-card strong {
+        display: block;
+
+        color: #17365d;
+
+        font-size: 22px;
+    }
+
+    /* ================================
+       REGISTER PANEL
+    ================================= */
+
+    .panel {
         background: #ffffff;
 
         border: 1px solid #e5e7eb;
         border-radius: 10px;
 
-        margin-bottom: 18px;
-
         overflow: hidden;
     }
 
-    .form-card-header {
-        padding: 16px 20px;
+    .panel-header {
+        padding: 16px 18px;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .panel-header h3 {
+        color: #374151;
+
+        font-size: 13px;
+    }
+
+    .record-count {
+        color: #9ca3af;
+
+        font-size: 10px;
+    }
+
+    /* ================================
+       FILTERS
+    ================================= */
+
+    .filters {
+        padding: 16px 18px;
 
         background: #fafbfc;
 
         border-bottom: 1px solid #e5e7eb;
-    }
 
-    .form-card-header h3 {
-        color: #374151;
-
-        font-size: 13px;
-
-        margin-bottom: 3px;
-    }
-
-    .form-card-header p {
-        color: #9ca3af;
-
-        font-size: 10px;
-    }
-
-    .form-card-body {
-        padding: 22px 20px;
-    }
-
-    /* ================================
-       FORM GRID
-    ================================= */
-
-    .form-grid {
         display: grid;
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap: 18px 20px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group.full {
-        grid-column: 1 / -1;
-    }
-
-    .form-group label {
-        color: #374151;
-
-        font-size: 11px;
-        font-weight: 600;
-
-        margin-bottom: 7px;
-    }
-
-    .required {
-        color: #dc2626;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-
-        border: 1px solid #d1d5db;
-        border-radius: 7px;
-
-        background: #ffffff;
-
-        color: #374151;
-
-        font-family: inherit;
-        font-size: 12px;
-
-        outline: none;
-
-        transition:
-            border-color 0.2s ease,
-            box-shadow 0.2s ease;
-    }
-
-    .form-group input,
-    .form-group select {
-        height: 42px;
-
-        padding: 0 12px;
-    }
-
-    .form-group textarea {
-        min-height: 110px;
-
-        padding: 11px 12px;
-
-        resize: vertical;
-
-        line-height: 1.5;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: #17365d;
-
-        box-shadow:
-            0 0 0 3px rgba(23,54,93,0.08);
-    }
-
-    .help-text {
-        margin-top: 5px;
-
-        color: #9ca3af;
-
-        font-size: 9px;
-        line-height: 1.4;
-    }
-
-    /* ================================
-       RADIO GROUP
-    ================================= */
-
-    .radio-group {
-        display: flex;
-        flex-wrap: wrap;
+            2fr
+            1fr
+            1fr
+            1fr
+            auto;
 
         gap: 9px;
     }
 
-    .radio-option {
-        position: relative;
-    }
+    .filter input,
+    .filter select {
+        width: 100%;
+        height: 38px;
 
-    .radio-option input {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .radio-option label {
-        display: block;
-
-        padding: 9px 14px;
+        padding: 0 11px;
 
         border: 1px solid #d1d5db;
         border-radius: 7px;
 
         background: #ffffff;
 
-        color: #4b5563;
+        color: #374151;
 
-        cursor: pointer;
-
+        font-family: inherit;
         font-size: 11px;
 
-        transition:
-            border-color 0.2s ease,
-            background 0.2s ease;
+        outline: none;
     }
 
-    .radio-option input:checked + label {
+    .filter input:focus,
+    .filter select:focus {
         border-color: #17365d;
 
-        background: #eef3f8;
+        box-shadow:
+            0 0 0 3px rgba(23,54,93,0.07);
+    }
 
-        color: #17365d;
+    .clear-filter {
+        height: 38px;
 
-        font-weight: 600;
+        padding: 0 12px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #6b7280;
+
+        font-family: inherit;
+        font-size: 10px;
+
+        cursor: pointer;
+    }
+
+    .clear-filter:hover {
+        background: #f3f4f6;
     }
 
     /* ================================
-       FILE UPLOAD
+       TABLE
     ================================= */
 
-    .file-upload {
-        border: 1px dashed #cbd5e1;
+    .table-wrapper {
+        width: 100%;
 
-        border-radius: 8px;
+        overflow-x: auto;
+    }
 
-        padding: 20px;
+    table {
+        width: 100%;
 
-        text-align: center;
+        min-width: 900px;
 
+        border-collapse: collapse;
+    }
+
+    th {
+        padding: 12px 14px;
+
+        background: #f9fafb;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        color: #6b7280;
+
+        font-size: 9px;
+        font-weight: 700;
+
+        text-align: left;
+
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 13px 14px;
+
+        border-bottom: 1px solid #f0f1f2;
+
+        color: #4b5563;
+
+        font-size: 10px;
+
+        white-space: nowrap;
+    }
+
+    tbody tr {
+        transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
         background: #fafbfc;
+    }
+
+    .record-id {
+        color: #17365d;
+
+        font-weight: 700;
 
         cursor: pointer;
     }
 
-    .file-upload:hover {
-        background: #f5f7f9;
+    .record-id:hover {
+        text-decoration: underline;
     }
 
-    .file-upload input {
+    .subject {
+        max-width: 240px;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+    /* ================================
+       BADGES
+    ================================= */
+
+    .badge {
+        display: inline-block;
+
+        padding: 4px 8px;
+
+        border-radius: 12px;
+
+        font-size: 8px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .priority-low {
+        background: #f0fdf4;
+        color: #15803d;
+    }
+
+    .priority-medium {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .priority-high {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .priority-critical {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .status-open {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .status-investigation {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .status-capa {
+        background: #fefce8;
+        color: #a16207;
+    }
+
+    .status-closed {
+        background: #f0fdf4;
+        color: #15803d;
+    }
+
+    /* ================================
+       EMPTY STATE
+    ================================= */
+
+    .empty-state {
         display: none;
-    }
 
-    .upload-icon {
-        font-size: 22px;
+        padding: 45px 20px;
 
-        color: #17365d;
+        text-align: center;
 
-        margin-bottom: 7px;
-    }
-
-    .file-upload strong {
-        display: block;
-
-        color: #374151;
-
-        font-size: 11px;
-
-        margin-bottom: 4px;
-    }
-
-    .file-upload span {
         color: #9ca3af;
 
-        font-size: 9px;
+        font-size: 11px;
     }
 
-    #fileName {
-        margin-top: 8px;
+    /* ================================
+       PAGINATION
+    ================================= */
 
-        color: #17365d;
+    .table-footer {
+        padding: 13px 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        border-top: 1px solid #e5e7eb;
+
+        color: #9ca3af;
 
         font-size: 10px;
     }
 
-    /* ================================
-       ACTIONS
-    ================================= */
-
-    .form-actions {
+    .pagination {
         display: flex;
-        justify-content: flex-end;
-
-        gap: 10px;
-
-        padding: 18px 20px;
-
-        background: #fafbfc;
-
-        border-top: 1px solid #e5e7eb;
+        gap: 4px;
     }
 
-    .button {
-        height: 40px;
+    .page-button {
+        width: 28px;
+        height: 28px;
 
-        padding: 0 18px;
+        border: 1px solid #d1d5db;
+        border-radius: 5px;
 
-        border-radius: 7px;
+        background: #ffffff;
 
-        font-family: inherit;
-        font-size: 11px;
-        font-weight: 600;
+        color: #6b7280;
+
+        font-size: 10px;
 
         cursor: pointer;
     }
 
-    .button-secondary {
-        background: #ffffff;
-
-        border: 1px solid #d1d5db;
-
-        color: #374151;
-    }
-
-    .button-primary {
+    .page-button.active {
         background: #17365d;
-
-        border: 1px solid #17365d;
-
+        border-color: #17365d;
         color: #ffffff;
-    }
-
-    .button-primary:hover {
-        background: #102a49;
-    }
-
-    .button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-
-    /* ================================
-       SUCCESS MODAL
-    ================================= */
-
-    .modal {
-        display: none;
-
-        position: fixed;
-        inset: 0;
-
-        background: rgba(0,0,0,0.45);
-
-        align-items: center;
-        justify-content: center;
-
-        z-index: 500;
-
-        padding: 20px;
-    }
-
-    .modal.show {
-        display: flex;
-    }
-
-    .modal-card {
-        width: 100%;
-        max-width: 430px;
-
-        background: #ffffff;
-
-        border-radius: 12px;
-
-        padding: 30px;
-
-        text-align: center;
-
-        box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    }
-
-    .modal-icon {
-        width: 50px;
-        height: 50px;
-
-        margin: 0 auto 15px;
-
-        border-radius: 50%;
-
-        background: #f0fdf4;
-
-        color: #15803d;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 22px;
-    }
-
-    .modal-card h3 {
-        color: #17365d;
-
-        font-size: 17px;
-
-        margin-bottom: 7px;
-    }
-
-    .modal-card p {
-        color: #6b7280;
-
-        font-size: 11px;
-        line-height: 1.6;
-
-        margin-bottom: 18px;
-    }
-
-    .complaint-number {
-        display: inline-block;
-
-        padding: 8px 13px;
-
-        margin-bottom: 20px;
-
-        border-radius: 6px;
-
-        background: #eef3f8;
-
-        color: #17365d;
-
-        font-size: 12px;
-        font-weight: 700;
     }
 
     /* ================================
        RESPONSIVE
     ================================= */
+
+    @media (max-width: 1000px) {
+
+        .summary-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .filters {
+            grid-template-columns:
+                1fr 1fr;
+        }
+
+        .filter:first-child {
+            grid-column: 1 / -1;
+        }
+    }
 
     @media (max-width: 850px) {
 
@@ -673,7 +653,7 @@
         }
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 600px) {
 
         .topbar {
             padding: 0 16px;
@@ -683,24 +663,30 @@
             padding: 20px 16px 35px;
         }
 
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .form-group.full {
-            grid-column: auto;
-        }
-
         .page-title p {
             display: none;
         }
 
-        .form-actions {
-            flex-direction: column-reverse;
+        .top-actions .button-secondary {
+            display: none;
         }
 
-        .button {
-            width: 100%;
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filters {
+            grid-template-columns: 1fr;
+        }
+
+        .filter:first-child {
+            grid-column: auto;
+        }
+
+        .table-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
         }
     }
 </style>
@@ -740,7 +726,9 @@
                 Overview
             </div>
 
-            <a href="dashboard.html" class="nav-item">
+            <a
+                href="dashboard.html"
+                class="nav-item">
 
                 <span class="nav-icon">⌂</span>
                 <span>Dashboard</span>
@@ -758,7 +746,7 @@
 
             <a
                 href="complaint-form.html"
-                class="nav-item active">
+                class="nav-item">
 
                 <span class="nav-icon">＋</span>
                 <span>Register Complaint</span>
@@ -767,7 +755,7 @@
 
             <a
                 href="complaints.html"
-                class="nav-item">
+                class="nav-item active">
 
                 <span class="nav-icon">▤</span>
                 <span>Complaint Register</span>
@@ -852,10 +840,8 @@
 
 
     <div class="sidebar-footer">
-
         QMS Portal<br>
         Complaint &amp; CAPA Management
-
     </div>
 
 </aside>
@@ -875,7 +861,7 @@
         <div class="page-title">
 
             <h1>
-                Register Complaint
+                Complaint Register
             </h1>
 
             <p>
@@ -888,18 +874,18 @@
         <div class="top-actions">
 
             <a
-                href="complaints.html"
-                class="back-button">
+                href="dashboard.html"
+                class="button button-secondary">
 
-                Complaint Register
+                Dashboard
 
             </a>
 
             <a
-                href="dashboard.html"
-                class="back-button">
+                href="complaint-form.html"
+                class="button button-primary">
 
-                Dashboard
+                + Register Complaint
 
             </a>
 
@@ -916,485 +902,595 @@
         <div class="intro">
 
             <h2>
-                New Complaint Registration
+                Complaint Register
             </h2>
 
             <p>
-                Please provide the available information regarding the complaint. Required fields are marked with an asterisk.
+                Search, review and monitor all registered complaints.
             </p>
 
         </div>
 
 
-        <form id="complaintForm">
+        <!-- =====================================
+             SUMMARY
+        ====================================== -->
+
+        <div class="summary-grid">
 
 
-            <!-- =================================
-                 SECTION 1
-            ================================== -->
+            <div class="summary-card">
 
-            <div class="form-card">
+                <span>
+                    Total Complaints
+                </span>
 
-                <div class="form-card-header">
-
-                    <h3>
-                        01. Complaint Information
-                    </h3>
-
-                    <p>
-                        Basic information about the complaint
-                    </p>
-
-                </div>
-
-
-                <div class="form-card-body">
-
-                    <div class="form-grid">
-
-
-                        <div class="form-group">
-
-                            <label for="complaintDate">
-                                Date Received
-                                <span class="required">*</span>
-                            </label>
-
-                            <input
-                                type="date"
-                                id="complaintDate"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="source">
-                                Complaint Source
-                                <span class="required">*</span>
-                            </label>
-
-                            <select
-                                id="source"
-                                required>
-
-                                <option value="">
-                                    Select source
-                                </option>
-
-                                <option>
-                                    Customer
-                                </option>
-
-                                <option>
-                                    Internal
-                                </option>
-
-                                <option>
-                                    Supplier
-                                </option>
-
-                                <option>
-                                    Regulatory Authority
-                                </option>
-
-                                <option>
-                                    Other
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="customer">
-                                Customer / Complainant
-                                <span class="required">*</span>
-                            </label>
-
-                            <input
-                                type="text"
-                                id="customer"
-                                placeholder="Enter customer / complainant name"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="contact">
-                                Contact Details
-                            </label>
-
-                            <input
-                                type="text"
-                                id="contact"
-                                placeholder="Email / phone / other contact">
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="reference">
-                                Shipment / Reference No.
-                            </label>
-
-                            <input
-                                type="text"
-                                id="reference"
-                                placeholder="Enter shipment, AWB, HAWB or reference number">
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="product">
-                                Product / Service
-                            </label>
-
-                            <input
-                                type="text"
-                                id="product"
-                                placeholder="Enter product or service">
-
-                        </div>
-
-
-                        <div class="form-group full">
-
-                            <label for="subject">
-                                Complaint Subject
-                                <span class="required">*</span>
-                            </label>
-
-                            <input
-                                type="text"
-                                id="subject"
-                                placeholder="Briefly describe the complaint"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group full">
-
-                            <label for="description">
-                                Complaint Description
-                                <span class="required">*</span>
-                            </label>
-
-                            <textarea
-                                id="description"
-                                placeholder="Provide a clear description of the complaint, including relevant facts, dates and circumstances."
-                                required></textarea>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <strong id="totalCount">
+                    24
+                </strong>
 
             </div>
 
 
-            <!-- =================================
-                 SECTION 2
-            ================================== -->
+            <div class="summary-card">
 
-            <div class="form-card">
+                <span>
+                    Open
+                </span>
 
-                <div class="form-card-header">
-
-                    <h3>
-                        02. Initial Assessment
-                    </h3>
-
-                    <p>
-                        Preliminary classification and impact assessment
-                    </p>
-
-                </div>
-
-
-                <div class="form-card-body">
-
-                    <div class="form-grid">
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Initial Priority
-                                <span class="required">*</span>
-                            </label>
-
-                            <div class="radio-group">
-
-
-                                <div class="radio-option">
-
-                                    <input
-                                        type="radio"
-                                        id="priorityLow"
-                                        name="priority"
-                                        value="Low"
-                                        required>
-
-                                    <label for="priorityLow">
-                                        Low
-                                    </label>
-
-                                </div>
-
-
-                                <div class="radio-option">
-
-                                    <input
-                                        type="radio"
-                                        id="priorityMedium"
-                                        name="priority"
-                                        value="Medium">
-
-                                    <label for="priorityMedium">
-                                        Medium
-                                    </label>
-
-                                </div>
-
-
-                                <div class="radio-option">
-
-                                    <input
-                                        type="radio"
-                                        id="priorityHigh"
-                                        name="priority"
-                                        value="High">
-
-                                    <label for="priorityHigh">
-                                        High
-                                    </label>
-
-                                </div>
-
-
-                                <div class="radio-option">
-
-                                    <input
-                                        type="radio"
-                                        id="priorityCritical"
-                                        name="priority"
-                                        value="Critical">
-
-                                    <label for="priorityCritical">
-                                        Critical
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="category">
-                                Complaint Category
-                                <span class="required">*</span>
-                            </label>
-
-                            <select
-                                id="category"
-                                required>
-
-                                <option value="">
-                                    Select category
-                                </option>
-
-                                <option>
-                                    Service Quality
-                                </option>
-
-                                <option>
-                                    Documentation
-                                </option>
-
-                                <option>
-                                    Shipment Handling
-                                </option>
-
-                                <option>
-                                    Temperature Control
-                                </option>
-
-                                <option>
-                                    Delivery
-                                </option>
-
-                                <option>
-                                    Regulatory / Compliance
-                                </option>
-
-                                <option>
-                                    Communication
-                                </option>
-
-                                <option>
-                                    Other
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group full">
-
-                            <label for="impact">
-                                Initial Impact / Risk Assessment
-                            </label>
-
-                            <textarea
-                                id="impact"
-                                placeholder="Describe the known or potential impact on product, service, customer, regulatory compliance or patient safety, where applicable."></textarea>
-
-                        </div>
-
-
-                        <div class="form-group full">
-
-                            <label for="containment">
-                                Immediate Containment / Action Taken
-                            </label>
-
-                            <textarea
-                                id="containment"
-                                placeholder="Record any immediate action taken to control or contain the issue."></textarea>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <strong id="openCount">
+                    08
+                </strong>
 
             </div>
 
 
-            <!-- =================================
-                 SECTION 3
-            ================================== -->
+            <div class="summary-card">
 
-            <div class="form-card">
+                <span>
+                    Under Investigation
+                </span>
 
-                <div class="form-card-header">
+                <strong id="investigationCount">
+                    07
+                </strong>
 
-                    <h3>
-                        03. Supporting Evidence
-                    </h3>
+            </div>
 
-                    <p>
-                        Attach relevant documents or evidence
-                    </p>
+
+            <div class="summary-card">
+
+                <span>
+                    Closed
+                </span>
+
+                <strong id="closedCount">
+                    09
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             REGISTER
+        ====================================== -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Registered Complaints
+                </h3>
+
+                <span
+                    class="record-count"
+                    id="recordCount">
+
+                    Showing 6 records
+
+                </span>
+
+            </div>
+
+
+            <!-- FILTERS -->
+
+            <div class="filters">
+
+
+                <div class="filter">
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search complaint ID, customer, subject or reference...">
 
                 </div>
 
 
-                <div class="form-card-body">
+                <div class="filter">
 
-                    <div class="form-grid">
+                    <select id="statusFilter">
 
-                        <div class="form-group full">
+                        <option value="">
+                            All Status
+                        </option>
 
-                            <label>
-                                Supporting Documents
-                            </label>
+                        <option value="Open">
+                            Open
+                        </option>
 
-                            <label
-                                class="file-upload"
-                                for="attachments">
+                        <option value="Investigation">
+                            Investigation
+                        </option>
 
-                                <input
-                                    type="file"
-                                    id="attachments"
-                                    multiple>
+                        <option value="CAPA">
+                            CAPA
+                        </option>
 
-                                <div class="upload-icon">
-                                    ↑
-                                </div>
+                        <option value="Closed">
+                            Closed
+                        </option>
 
-                                <strong>
-                                    Select supporting files
-                                </strong>
+                    </select>
 
-                                <span>
-                                    Photos, documents, emails or other relevant evidence
+                </div>
+
+
+                <div class="filter">
+
+                    <select id="priorityFilter">
+
+                        <option value="">
+                            All Priority
+                        </option>
+
+                        <option value="Low">
+                            Low
+                        </option>
+
+                        <option value="Medium">
+                            Medium
+                        </option>
+
+                        <option value="High">
+                            High
+                        </option>
+
+                        <option value="Critical">
+                            Critical
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter">
+
+                    <select id="categoryFilter">
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        <option value="Documentation">
+                            Documentation
+                        </option>
+
+                        <option value="Delivery">
+                            Delivery
+                        </option>
+
+                        <option value="Temperature Control">
+                            Temperature Control
+                        </option>
+
+                        <option value="Shipment Handling">
+                            Shipment Handling
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="clear-filter"
+                    id="clearFilters">
+
+                    Clear
+
+                </button>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrapper">
+
+                <table id="complaintTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                COMPLAINT ID
+                            </th>
+
+                            <th>
+                                DATE
+                            </th>
+
+                            <th>
+                                CUSTOMER / SOURCE
+                            </th>
+
+                            <th>
+                                SUBJECT
+                            </th>
+
+                            <th>
+                                CATEGORY
+                            </th>
+
+                            <th>
+                                PRIORITY
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr
+                            data-status="Investigation"
+                            data-priority="High"
+                            data-category="Documentation">
+
+                            <td
+                                class="record-id"
+                                onclick="openComplaint('CMP-2026-024')">
+
+                                CMP-2026-024
+
+                            </td>
+
+                            <td>
+                                14 Sep 2026
+                            </td>
+
+                            <td>
+                                Customer
+                            </td>
+
+                            <td class="subject">
+                                Shipment documentation discrepancy
+                            </td>
+
+                            <td>
+                                Documentation
+                            </td>
+
+                            <td>
+
+                                <span class="badge priority-high">
+                                    High
                                 </span>
 
-                                <div id="fileName"></div>
+                            </td>
 
-                            </label>
+                            <td>
 
-                            <div class="help-text">
-                                File upload will be connected to the document repository when the backend is implemented.
-                            </div>
+                                <span class="badge status-investigation">
+                                    Investigation
+                                </span>
 
-                        </div>
+                            </td>
 
-                    </div>
+                        </tr>
+
+
+                        <tr
+                            data-status="CAPA"
+                            data-priority="Medium"
+                            data-category="Temperature Control">
+
+                            <td
+                                class="record-id"
+                                onclick="openComplaint('CMP-2026-023')">
+
+                                CMP-2026-023
+
+                            </td>
+
+                            <td>
+                                13 Sep 2026
+                            </td>
+
+                            <td>
+                                Customer
+                            </td>
+
+                            <td class="subject">
+                                Temperature monitoring query
+                            </td>
+
+                            <td>
+                                Temperature Control
+                            </td>
+
+                            <td>
+
+                                <span class="badge priority-medium">
+                                    Medium
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge status-capa">
+                                    CAPA
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-status="Open"
+                            data-priority="Low"
+                            data-category="Delivery">
+
+                            <td
+                                class="record-id"
+                                onclick="openComplaint('CMP-2026-022')">
+
+                                CMP-2026-022
+
+                            </td>
+
+                            <td>
+                                12 Sep 2026
+                            </td>
+
+                            <td>
+                                Customer
+                            </td>
+
+                            <td class="subject">
+                                Delivery documentation issue
+                            </td>
+
+                            <td>
+                                Delivery
+                            </td>
+
+                            <td>
+
+                                <span class="badge priority-low">
+                                    Low
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge status-open">
+                                    Open
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-status="Closed"
+                            data-priority="High"
+                            data-category="Shipment Handling">
+
+                            <td
+                                class="record-id"
+                                onclick="openComplaint('CMP-2026-021')">
+
+                                CMP-2026-021
+
+                            </td>
+
+                            <td>
+                                11 Sep 2026
+                            </td>
+
+                            <td>
+                                Customer
+                            </td>
+
+                            <td class="subject">
+                                Handling instruction deviation
+                            </td>
+
+                            <td>
+                                Shipment Handling
+                            </td>
+
+                            <td>
+
+                                <span class="badge priority-high">
+                                    High
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge status-closed">
+                                    Closed
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-status="Investigation"
+                            data-priority="Critical"
+                            data-category="Temperature Control">
+
+                            <td
+                                class="record-id"
+                                onclick="openComplaint('CMP-2026-020')">
+
+                                CMP-2026-020
+
+                            </td>
+
+                            <td>
+                                10 Sep 2026
+                            </td>
+
+                            <td>
+                                Customer
+                            </td>
+
+                            <td class="subject">
+                                Temperature excursion during transit
+                            </td>
+
+                            <td>
+                                Temperature Control
+                            </td>
+
+                            <td>
+
+                                <span class="badge priority-critical">
+                                    Critical
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge status-investigation">
+                                    Investigation
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-status="Open"
+                            data-priority="Medium"
+                            data-category="Documentation">
+
+                            <td
+                                class="record-id"
+                                onclick="openComplaint('CMP-2026-019')">
+
+                                CMP-2026-019
+
+                            </td>
+
+                            <td>
+                                09 Sep 2026
+                            </td>
+
+                            <td>
+                                Internal
+                            </td>
+
+                            <td class="subject">
+                                Missing supporting shipment record
+                            </td>
+
+                            <td>
+                                Documentation
+                            </td>
+
+                            <td>
+
+                                <span class="badge priority-medium">
+                                    Medium
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge status-open">
+                                    Open
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    class="empty-state"
+                    id="emptyState">
+
+                    No complaints match the selected filters.
 
                 </div>
 
             </div>
 
 
-            <!-- =================================
-                 ACTIONS
-            ================================== -->
+            <!-- FOOTER -->
 
-            <div class="form-card">
+            <div class="table-footer">
 
-                <div class="form-actions">
+                <span id="footerCount">
+                    Showing 6 of 24 complaints
+                </span>
 
-                    <button
-                        type="button"
-                        class="button button-secondary"
-                        id="cancelButton">
 
-                        Cancel
+                <div class="pagination">
 
+                    <button class="page-button active">
+                        1
                     </button>
 
-
-                    <button
-                        type="reset"
-                        class="button button-secondary">
-
-                        Clear
-
+                    <button class="page-button">
+                        2
                     </button>
 
+                    <button class="page-button">
+                        3
+                    </button>
 
-                    <button
-                        type="submit"
-                        class="button button-primary"
-                        id="submitButton">
-
-                        Submit Complaint
-
+                    <button class="page-button">
+                        ›
                     </button>
 
                 </div>
 
             </div>
 
-
-        </form>
+        </div>
 
     </section>
 
@@ -1403,214 +1499,182 @@
 
 </div>
 
-<!-- =========================================
-     SUCCESS MODAL
-========================================== -->
-
-<div
-    class="modal"
-    id="successModal">
-
-```
-<div class="modal-card">
-
-    <div class="modal-icon">
-        ✓
-    </div>
-
-    <h3>
-        Complaint Registered
-    </h3>
-
-    <p>
-        The complaint has been successfully recorded and assigned a unique reference number.
-    </p>
-
-    <div
-        class="complaint-number"
-        id="generatedComplaintId">
-
-        CMP-2026-025
-
-    </div>
-
-    <br>
-
-    <button
-        class="button button-primary"
-        id="closeModal">
-
-        Continue
-
-    </button>
-
-</div>
-```
-
-</div>
-
 <script>
 
-    /* ================================
-       DEFAULT DATE
-    ================================= */
+    /* =========================================
+       FILTERING
+    ========================================== */
 
-    const complaintDate =
-        document.getElementById("complaintDate");
+    const searchInput =
+        document.getElementById("searchInput");
 
-    const today =
-        new Date().toISOString().split("T")[0];
+    const statusFilter =
+        document.getElementById("statusFilter");
 
-    complaintDate.value = today;
+    const priorityFilter =
+        document.getElementById("priorityFilter");
+
+    const categoryFilter =
+        document.getElementById("categoryFilter");
+
+    const clearFilters =
+        document.getElementById("clearFilters");
+
+    const rows =
+        Array.from(
+            document.querySelectorAll(
+                "#complaintTable tbody tr"
+            )
+        );
+
+    const emptyState =
+        document.getElementById("emptyState");
+
+    const recordCount =
+        document.getElementById("recordCount");
+
+    const footerCount =
+        document.getElementById("footerCount");
 
 
-    /* ================================
-       FILE NAME
-    ================================= */
+    function filterComplaints() {
 
-    const attachments =
-        document.getElementById("attachments");
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
-    const fileName =
-        document.getElementById("fileName");
+        const status =
+            statusFilter.value;
+
+        const priority =
+            priorityFilter.value;
+
+        const category =
+            categoryFilter.value;
 
 
-    attachments.addEventListener(
+        let visible = 0;
+
+
+        rows.forEach(function(row) {
+
+            const rowText =
+                row.textContent.toLowerCase();
+
+            const rowStatus =
+                row.dataset.status;
+
+            const rowPriority =
+                row.dataset.priority;
+
+            const rowCategory =
+                row.dataset.category;
+
+
+            const matchesSearch =
+                !search ||
+                rowText.includes(search);
+
+            const matchesStatus =
+                !status ||
+                rowStatus === status;
+
+            const matchesPriority =
+                !priority ||
+                rowPriority === priority;
+
+            const matchesCategory =
+                !category ||
+                rowCategory === category;
+
+
+            const show =
+                matchesSearch &&
+                matchesStatus &&
+                matchesPriority &&
+                matchesCategory;
+
+
+            row.style.display =
+                show ? "" : "none";
+
+
+            if (show) {
+                visible++;
+            }
+
+        });
+
+
+        emptyState.style.display =
+            visible === 0 ? "block" : "none";
+
+
+        recordCount.textContent =
+            "Showing " + visible + " records";
+
+
+        footerCount.textContent =
+            "Showing " + visible + " of 24 complaints";
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterComplaints
+    );
+
+    statusFilter.addEventListener(
         "change",
-        function () {
+        filterComplaints
+    );
 
-            if (this.files.length === 0) {
+    priorityFilter.addEventListener(
+        "change",
+        filterComplaints
+    );
 
-                fileName.textContent = "";
+    categoryFilter.addEventListener(
+        "change",
+        filterComplaints
+    );
 
-                return;
-            }
 
+    clearFilters.addEventListener(
+        "click",
+        function() {
 
-            if (this.files.length === 1) {
+            searchInput.value = "";
+            statusFilter.value = "";
+            priorityFilter.value = "";
+            categoryFilter.value = "";
 
-                fileName.textContent =
-                    this.files[0].name;
-
-            } else {
-
-                fileName.textContent =
-                    this.files.length +
-                    " files selected";
-
-            }
+            filterComplaints();
 
         }
     );
 
 
-    /* ================================
-       FORM SUBMISSION
-    ================================= */
+    /* =========================================
+       OPEN COMPLAINT
+    ========================================== */
 
-    const complaintForm =
-        document.getElementById("complaintForm");
+    function openComplaint(id) {
 
-    const submitButton =
-        document.getElementById("submitButton");
+        /*
+         * Later this will open the complete
+         * complaint record retrieved from
+         * Google Sheets through Apps Script.
+         */
 
-    const successModal =
-        document.getElementById("successModal");
-
-
-    complaintForm.addEventListener(
-        "submit",
-        function (event) {
-
-            event.preventDefault();
-
-
-            submitButton.disabled = true;
-
-            submitButton.textContent =
-                "Submitting...";
-
-
-            /*
-             * BACKEND CONNECTION WILL BE ADDED HERE.
-             *
-             * Data will eventually be sent to:
-             *
-             * GitHub
-             *      ↓
-             * Apps Script API
-             *      ↓
-             * COMPLAINTS sheet
-             *      ↓
-             * Generate Complaint ID
-             *      ↓
-             * Workflow
-             */
-
-
-            setTimeout(
-                function () {
-
-                    submitButton.disabled = false;
-
-                    submitButton.textContent =
-                        "Submit Complaint";
-
-
-                    document.getElementById(
-                        "generatedComplaintId"
-                    ).textContent =
-                        "CMP-2026-025";
-
-
-                    successModal.classList.add(
-                        "show"
-                    );
-
-                },
-                800
-            );
-
-        }
-    );
-
-
-    /* ================================
-       CLOSE MODAL
-    ================================= */
-
-    document
-        .getElementById("closeModal")
-        .addEventListener(
-            "click",
-            function () {
-
-                successModal.classList.remove(
-                    "show"
-                );
-
-                window.location.href =
-                    "complaints.html";
-
-            }
+        alert(
+            "Complaint selected: " + id +
+            "\n\nDetailed complaint record will be connected next."
         );
 
-
-    /* ================================
-       CANCEL
-    ================================= */
-
-    document
-        .getElementById("cancelButton")
-        .addEventListener(
-            "click",
-            function () {
-
-                window.location.href =
-                    "dashboard.html";
-
-            }
-        );
+    }
 
 </script>
 
