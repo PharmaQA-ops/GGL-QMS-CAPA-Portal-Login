@@ -27,18 +27,18 @@
         background: #101820;
     }
 
-    /* =========================================
+    /* ================================
        BACKGROUND VIDEO
-    ========================================= */
+    ================================= */
 
     .video-background {
         position: fixed;
         inset: 0;
         width: 100%;
         height: 100%;
-        z-index: 0;
         overflow: hidden;
         background: #101820;
+        z-index: 0;
     }
 
     .video-background video {
@@ -59,9 +59,9 @@
         pointer-events: none;
     }
 
-    /* =========================================
+    /* ================================
        VIDEO OVERLAY
-    ========================================= */
+    ================================= */
 
     .video-overlay {
         position: fixed;
@@ -71,15 +71,15 @@
             linear-gradient(
                 90deg,
                 rgba(5, 15, 25, 0.72),
-                rgba(5, 15, 25, 0.40)
+                rgba(5, 15, 25, 0.38)
             );
 
         z-index: 1;
     }
 
-    /* =========================================
-       MAIN CONTAINER
-    ========================================= */
+    /* ================================
+       PAGE
+    ================================= */
 
     .page {
         position: relative;
@@ -91,14 +91,14 @@
         align-items: center;
         justify-content: center;
 
-        z-index: 2;
-
         padding: 24px;
+
+        z-index: 2;
     }
 
-    /* =========================================
+    /* ================================
        LOGIN CARD
-    ========================================= */
+    ================================= */
 
     .login-card {
         width: 100%;
@@ -108,7 +108,7 @@
 
         background: rgba(255, 255, 255, 0.96);
 
-        border: 1px solid rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.75);
 
         border-radius: 18px;
 
@@ -119,9 +119,9 @@
         -webkit-backdrop-filter: blur(10px);
     }
 
-    /* =========================================
-       LOGO
-    ========================================= */
+    /* ================================
+       BRAND
+    ================================= */
 
     .brand {
         text-align: center;
@@ -158,9 +158,9 @@
         line-height: 1.5;
     }
 
-    /* =========================================
+    /* ================================
        FORM
-    ========================================= */
+    ================================= */
 
     .form-group {
         margin-bottom: 19px;
@@ -189,7 +189,6 @@
         outline: none;
 
         background: #ffffff;
-
         color: #1f2937;
 
         font-size: 14px;
@@ -210,9 +209,9 @@
             0 0 0 3px rgba(23, 54, 93, 0.10);
     }
 
-    /* =========================================
+    /* ================================
        PASSWORD
-    ========================================= */
+    ================================= */
 
     .password-wrapper {
         position: relative;
@@ -241,9 +240,9 @@
         cursor: pointer;
     }
 
-    /* =========================================
+    /* ================================
        LOGIN BUTTON
-    ========================================= */
+    ================================= */
 
     .login-button {
         width: 100%;
@@ -280,9 +279,9 @@
         cursor: not-allowed;
     }
 
-    /* =========================================
+    /* ================================
        MESSAGE
-    ========================================= */
+    ================================= */
 
     .message {
         display: none;
@@ -314,9 +313,9 @@
         border: 1px solid #bbf7d0;
     }
 
-    /* =========================================
+    /* ================================
        FOOTER
-    ========================================= */
+    ================================= */
 
     .footer {
         text-align: center;
@@ -329,9 +328,9 @@
         line-height: 1.6;
     }
 
-    /* =========================================
+    /* ================================
        MOBILE
-    ========================================= */
+    ================================= */
 
     @media (max-width: 600px) {
 
@@ -341,7 +340,6 @@
 
         .login-card {
             padding: 30px 24px;
-
             border-radius: 14px;
         }
 
@@ -360,9 +358,9 @@
         }
     }
 
-    /* =========================================
+    /* ================================
        REDUCED MOTION
-    ========================================= */
+    ================================= */
 
     @media (prefers-reduced-motion: reduce) {
 
@@ -374,7 +372,6 @@
             background: #17365d;
         }
     }
-
 </style>
 ```
 
@@ -383,9 +380,7 @@
 <body>
 
 ```
-<!-- =========================================
-     LIVE BACKGROUND VIDEO
-========================================= -->
+<!-- BACKGROUND VIDEO -->
 
 <div class="video-background">
 
@@ -406,14 +401,12 @@
 </div>
 
 
-<!-- VIDEO DARK OVERLAY -->
+<!-- VIDEO OVERLAY -->
 
 <div class="video-overlay"></div>
 
 
-<!-- =========================================
-     LOGIN PAGE
-========================================= -->
+<!-- LOGIN -->
 
 <main class="page">
 
@@ -436,10 +429,6 @@
 
         </div>
 
-
-        <!-- =================================
-             LOGIN FORM
-        ================================= -->
 
         <form id="loginForm">
 
@@ -511,7 +500,6 @@
         <div class="footer">
 
             Internal Quality Management System<br>
-
             Complaint &amp; CAPA Management Portal
 
         </div>
@@ -521,22 +509,17 @@
 </main>
 
 
-<!-- =========================================
-     JAVASCRIPT
-========================================= -->
-
 <script>
 
-    /* =========================================
+    /* ================================
        PASSWORD VISIBILITY
-    ========================================= */
+    ================================= */
 
     const passwordInput =
         document.getElementById("password");
 
     const togglePassword =
         document.getElementById("togglePassword");
-
 
     togglePassword.addEventListener(
         "click",
@@ -545,13 +528,11 @@
             if (passwordInput.type === "password") {
 
                 passwordInput.type = "text";
-
                 togglePassword.textContent = "Hide";
 
             } else {
 
                 passwordInput.type = "password";
-
                 togglePassword.textContent = "Show";
 
             }
@@ -560,9 +541,9 @@
     );
 
 
-    /* =========================================
+    /* ================================
        LOGIN
-    ========================================= */
+    ================================= */
 
     const loginForm =
         document.getElementById("loginForm");
@@ -573,13 +554,11 @@
     const loginMessage =
         document.getElementById("loginMessage");
 
-
     loginForm.addEventListener(
         "submit",
         function (event) {
 
             event.preventDefault();
-
 
             const email =
                 document.getElementById("email")
@@ -590,11 +569,8 @@
                 document.getElementById("password")
                 .value;
 
-
             loginMessage.className = "message";
-
             loginMessage.textContent = "";
-
 
             if (!email || !password) {
 
@@ -605,16 +581,10 @@
                     "Please enter your login credentials.";
 
                 return;
-
             }
 
-
             /*
-             * =====================================
-             * GOOGLE APPS SCRIPT AUTHENTICATION
-             * =====================================
-             *
-             * Authentication will be connected here.
+             * AUTHENTICATION WILL BE CONNECTED LATER
              *
              * GitHub
              *    ↓
@@ -622,60 +592,45 @@
              *    ↓
              * USERS sheet
              *    ↓
-             * Check user
+             * Validate user
              *    ↓
              * ADMIN / USER
-             *
-             * =====================================
              */
 
-
             loginButton.disabled = true;
+            loginButton.textContent = "Signing In...";
 
-            loginButton.textContent =
-                "Signing In...";
+            setTimeout(function () {
 
+                loginButton.disabled = false;
+                loginButton.textContent = "Sign In";
 
-            setTimeout(
-                function () {
+                loginMessage.className =
+                    "message error";
 
-                    loginButton.disabled = false;
+                loginMessage.textContent =
+                    "Authentication is not connected yet.";
 
-                    loginButton.textContent =
-                        "Sign In";
-
-
-                    loginMessage.className =
-                        "message error";
-
-                    loginMessage.textContent =
-                        "Authentication is not connected yet.";
-
-                },
-                700
-            );
+            }, 700);
 
         }
     );
 
 
-    /* =========================================
-       ENSURE VIDEO PLAYS
-    ========================================= */
+    /* ================================
+       VIDEO AUTOPLAY
+    ================================= */
 
     const backgroundVideo =
         document.getElementById("backgroundVideo");
 
+    backgroundVideo.play().catch(function () {
 
-    backgroundVideo.play().catch(
-        function () {
+        console.log(
+            "Background video autoplay was blocked."
+        );
 
-            console.log(
-                "Background video autoplay was blocked."
-            );
-
-        }
-    );
+    });
 
 </script>
 ```
