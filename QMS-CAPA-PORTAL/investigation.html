@@ -1,1 +1,2024 @@
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>QMS Portal | Investigation</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f8;
+        color: #1f2933;
+    }
+
+    /* ================================
+       SIDEBAR
+    ================================= */
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: 245px;
+
+        background: #17365d;
+        color: #ffffff;
+
+        z-index: 100;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-brand {
+        padding: 22px 20px;
+
+        text-align: center;
+
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .sidebar-brand img {
+        width: auto;
+        max-width: 155px;
+        max-height: 58px;
+    }
+
+    .sidebar-title {
+        margin-top: 10px;
+
+        color: rgba(255,255,255,0.72);
+
+        font-size: 12px;
+    }
+
+    .navigation {
+        flex: 1;
+
+        padding: 18px 12px;
+
+        overflow-y: auto;
+    }
+
+    .nav-section {
+        margin-bottom: 22px;
+    }
+
+    .nav-heading {
+        padding: 0 12px 8px;
+
+        color: rgba(255,255,255,0.48);
+
+        font-size: 10px;
+        font-weight: 700;
+
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+
+    .nav-item {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+
+        padding: 11px 12px;
+        margin-bottom: 3px;
+
+        border-radius: 7px;
+
+        color: rgba(255,255,255,0.82);
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+    .nav-item:hover {
+        background: rgba(255,255,255,0.09);
+        color: #ffffff;
+    }
+
+    .nav-item.active {
+        background: rgba(255,255,255,0.15);
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    .nav-icon {
+        width: 25px;
+        font-size: 15px;
+    }
+
+    .sidebar-footer {
+        padding: 15px 18px;
+
+        border-top: 1px solid rgba(255,255,255,0.12);
+
+        color: rgba(255,255,255,0.55);
+
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    /* ================================
+       MAIN
+    ================================= */
+
+    .main {
+        margin-left: 245px;
+        min-height: 100vh;
+    }
+
+    /* ================================
+       TOPBAR
+    ================================= */
+
+    .topbar {
+        height: 70px;
+
+        padding: 0 30px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: sticky;
+        top: 0;
+
+        z-index: 50;
+    }
+
+    .page-title h1 {
+        color: #17365d;
+
+        font-size: 20px;
+
+        margin-bottom: 3px;
+    }
+
+    .page-title p {
+        color: #9ca3af;
+
+        font-size: 11px;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 9px;
+    }
+
+    .button {
+        height: 38px;
+
+        padding: 0 14px;
+
+        border-radius: 7px;
+
+        font-family: inherit;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        text-decoration: none;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button-primary {
+        background: #17365d;
+        border: 1px solid #17365d;
+        color: #ffffff;
+    }
+
+    .button-primary:hover {
+        background: #102a49;
+    }
+
+    .button-secondary {
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        color: #374151;
+    }
+
+    /* ================================
+       CONTENT
+    ================================= */
+
+    .content {
+        padding: 28px 30px 45px;
+
+        max-width: 1250px;
+    }
+
+    .intro {
+        margin-bottom: 22px;
+    }
+
+    .intro h2 {
+        color: #1f2937;
+
+        font-size: 18px;
+
+        margin-bottom: 5px;
+    }
+
+    .intro p {
+        color: #6b7280;
+
+        font-size: 12px;
+    }
+
+    /* ================================
+       CASE SELECTOR
+    ================================= */
+
+    .case-bar {
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+
+        padding: 16px 18px;
+
+        margin-bottom: 18px;
+
+        display: grid;
+
+        grid-template-columns:
+            1fr
+            2fr
+            1fr
+            1fr;
+
+        gap: 14px;
+
+        align-items: end;
+    }
+
+    .field label {
+        display: block;
+
+        color: #6b7280;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select {
+        width: 100%;
+        height: 39px;
+
+        padding: 0 10px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #374151;
+
+        font-family: inherit;
+        font-size: 11px;
+
+        outline: none;
+    }
+
+    /* ================================
+       FORM CARD
+    ================================= */
+
+    .form-card {
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+
+        margin-bottom: 18px;
+
+        overflow: hidden;
+    }
+
+    .form-header {
+        padding: 16px 20px;
+
+        background: #fafbfc;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .form-header h3 {
+        color: #374151;
+
+        font-size: 13px;
+
+        margin-bottom: 3px;
+    }
+
+    .form-header p {
+        color: #9ca3af;
+
+        font-size: 10px;
+    }
+
+    .form-body {
+        padding: 22px 20px;
+    }
+
+    .form-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 18px 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        color: #374151;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        margin-bottom: 7px;
+    }
+
+    .required {
+        color: #dc2626;
+    }
+
+    input,
+    select,
+    textarea {
+        font-family: inherit;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #374151;
+
+        font-size: 12px;
+
+        outline: none;
+    }
+
+    .form-group input,
+    .form-group select {
+        height: 42px;
+
+        padding: 0 12px;
+    }
+
+    .form-group textarea {
+        min-height: 105px;
+
+        padding: 11px 12px;
+
+        resize: vertical;
+
+        line-height: 1.5;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #17365d;
+
+        box-shadow:
+            0 0 0 3px rgba(23,54,93,0.08);
+    }
+
+    .help-text {
+        margin-top: 5px;
+
+        color: #9ca3af;
+
+        font-size: 9px;
+
+        line-height: 1.4;
+    }
+
+    /* ================================
+       RADIO
+    ================================= */
+
+    .radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .radio-option {
+        position: relative;
+    }
+
+    .radio-option input {
+        position: absolute;
+
+        opacity: 0;
+
+        pointer-events: none;
+    }
+
+    .radio-option label {
+        display: block;
+
+        padding: 9px 13px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        color: #4b5563;
+
+        background: #ffffff;
+
+        cursor: pointer;
+
+        font-size: 11px;
+    }
+
+    .radio-option input:checked + label {
+        border-color: #17365d;
+
+        background: #eef3f8;
+
+        color: #17365d;
+
+        font-weight: 600;
+    }
+
+    /* ================================
+       ROOT CAUSE
+    ================================= */
+
+    .cause-box {
+        display: grid;
+
+        grid-template-columns:
+            1fr
+            1fr;
+
+        gap: 15px;
+    }
+
+    .cause-item {
+        padding: 14px;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+
+        background: #fafbfc;
+    }
+
+    .cause-item h4 {
+        color: #17365d;
+
+        font-size: 11px;
+
+        margin-bottom: 7px;
+    }
+
+    .cause-item p {
+        color: #9ca3af;
+
+        font-size: 9px;
+
+        margin-bottom: 9px;
+    }
+
+    /* ================================
+       CAPA DECISION
+    ================================= */
+
+    .decision {
+        padding: 15px;
+
+        border-radius: 8px;
+
+        background: #f8fafc;
+
+        border: 1px solid #e5e7eb;
+    }
+
+    .decision-title {
+        color: #374151;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        margin-bottom: 10px;
+    }
+
+    /* ================================
+       FILE
+    ================================= */
+
+    .file-upload {
+        display: block;
+
+        padding: 18px;
+
+        border: 1px dashed #cbd5e1;
+
+        border-radius: 8px;
+
+        background: #fafbfc;
+
+        text-align: center;
+
+        cursor: pointer;
+    }
+
+    .file-upload:hover {
+        background: #f5f7f9;
+    }
+
+    .file-upload input {
+        display: none;
+    }
+
+    .upload-icon {
+        color: #17365d;
+
+        font-size: 21px;
+
+        margin-bottom: 6px;
+    }
+
+    .file-upload strong {
+        display: block;
+
+        color: #374151;
+
+        font-size: 11px;
+
+        margin-bottom: 3px;
+    }
+
+    .file-upload span {
+        color: #9ca3af;
+
+        font-size: 9px;
+    }
+
+    #fileName {
+        margin-top: 7px;
+
+        color: #17365d;
+
+        font-size: 10px;
+    }
+
+    /* ================================
+       ACTIONS
+    ================================= */
+
+    .form-actions {
+        padding: 18px 20px;
+
+        background: #fafbfc;
+
+        border-top: 1px solid #e5e7eb;
+
+        display: flex;
+
+        justify-content: flex-end;
+
+        gap: 9px;
+    }
+
+    .button:disabled {
+        opacity: 0.6;
+
+        cursor: not-allowed;
+    }
+
+    /* ================================
+       MODAL
+    ================================= */
+
+    .modal {
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0,0,0,0.45);
+
+        z-index: 500;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+    }
+
+    .modal.show {
+        display: flex;
+    }
+
+    .modal-card {
+        width: 100%;
+        max-width: 430px;
+
+        padding: 30px;
+
+        background: #ffffff;
+
+        border-radius: 12px;
+
+        text-align: center;
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .modal-icon {
+        width: 50px;
+        height: 50px;
+
+        margin: 0 auto 15px;
+
+        border-radius: 50%;
+
+        background: #f0fdf4;
+
+        color: #15803d;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 22px;
+    }
+
+    .modal-card h3 {
+        color: #17365d;
+
+        font-size: 17px;
+
+        margin-bottom: 7px;
+    }
+
+    .modal-card p {
+        color: #6b7280;
+
+        font-size: 11px;
+
+        line-height: 1.6;
+
+        margin-bottom: 18px;
+    }
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+
+    @media (max-width: 1000px) {
+
+        .case-bar {
+            grid-template-columns:
+                1fr 1fr;
+        }
+    }
+
+    @media (max-width: 850px) {
+
+        .sidebar {
+            width: 68px;
+        }
+
+        .sidebar-brand {
+            padding: 18px 8px;
+        }
+
+        .sidebar-brand img {
+            max-width: 45px;
+            max-height: 45px;
+        }
+
+        .sidebar-title,
+        .nav-heading,
+        .nav-item span,
+        .sidebar-footer {
+            display: none;
+        }
+
+        .nav-item {
+            justify-content: center;
+            padding: 12px 5px;
+        }
+
+        .nav-icon {
+            width: auto;
+            font-size: 17px;
+        }
+
+        .main {
+            margin-left: 68px;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .topbar {
+            padding: 0 16px;
+        }
+
+        .content {
+            padding: 20px 16px 35px;
+        }
+
+        .page-title p {
+            display: none;
+        }
+
+        .case-bar {
+            grid-template-columns: 1fr;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .cause-box {
+            grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .form-actions .button {
+            width: 100%;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="app">
+
+```
+<!-- =========================================
+     SIDEBAR
+========================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img
+            src="https://raw.githubusercontent.com/PharmaQA-ops/ggl-main-dashboard/0c277ecd7fd7fec44cc271288154a2e8b67856fe/logo.png"
+            alt="Gaerish Logistics">
+
+        <div class="sidebar-title">
+            Quality Management System
+        </div>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Overview
+            </div>
+
+            <a href="dashboard.html" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Complaint Management
+            </div>
+
+            <a href="complaint-form.html" class="nav-item">
+
+                <span class="nav-icon">＋</span>
+                <span>Register Complaint</span>
+
+            </a>
+
+            <a href="complaints.html" class="nav-item">
+
+                <span class="nav-icon">▤</span>
+                <span>Complaint Register</span>
+
+            </a>
+
+            <a
+                href="investigation.html"
+                class="nav-item active">
+
+                <span class="nav-icon">⌕</span>
+                <span>Investigation</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                CAPA
+            </div>
+
+            <a href="capa.html" class="nav-item">
+
+                <span class="nav-icon">✓</span>
+                <span>CAPA Register</span>
+
+            </a>
+
+            <a href="my-tasks.html" class="nav-item">
+
+                <span class="nav-icon">☑</span>
+                <span>My Tasks</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Analysis
+            </div>
+
+            <a href="reports.html" class="nav-item">
+
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Administration
+            </div>
+
+            <a href="users.html" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+                <span>User Management</span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        QMS Portal<br>
+        Complaint &amp; CAPA Management
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================
+     MAIN
+========================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="page-title">
+
+            <h1>
+                Investigation
+            </h1>
+
+            <p>
+                Complaint Investigation &amp; Root Cause Analysis
+            </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <a
+                href="complaints.html"
+                class="button button-secondary">
+
+                Complaint Register
+
+            </a>
+
+            <a
+                href="dashboard.html"
+                class="button button-secondary">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <div class="intro">
+
+            <h2>
+                Complaint Investigation
+            </h2>
+
+            <p>
+                Record investigation findings, root cause, risk assessment and CAPA determination.
+            </p>
+
+        </div>
+
+
+        <!-- =================================
+             CASE SELECTOR
+        ================================== -->
+
+        <div class="case-bar">
+
+            <div class="field">
+
+                <label>
+                    Complaint ID
+                </label>
+
+                <select id="complaintId">
+
+                    <option>
+                        CMP-2026-024
+                    </option>
+
+                    <option>
+                        CMP-2026-023
+                    </option>
+
+                    <option>
+                        CMP-2026-022
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Complaint Subject
+                </label>
+
+                <input
+                    type="text"
+                    value="Shipment documentation discrepancy"
+                    readonly>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Current Status
+                </label>
+
+                <input
+                    type="text"
+                    value="Investigation"
+                    readonly>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Priority
+                </label>
+
+                <input
+                    type="text"
+                    value="High"
+                    readonly>
+
+            </div>
+
+        </div>
+
+
+        <form id="investigationForm">
+
+
+            <!-- =================================
+                 SECTION 01
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h3>
+                        01. Investigation Assignment
+                    </h3>
+
+                    <p>
+                        Define responsibility and investigation timeline
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="investigator">
+                                Investigator
+                                <span class="required">*</span>
+                            </label>
+
+                            <select id="investigator" required>
+
+                                <option value="">
+                                    Select investigator
+                                </option>
+
+                                <option>
+                                    Quality Manager
+                                </option>
+
+                                <option>
+                                    QA Executive
+                                </option>
+
+                                <option>
+                                    Operations Manager
+                                </option>
+
+                                <option>
+                                    Assigned User
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="investigationDate">
+                                Investigation Start Date
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                id="investigationDate"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="targetDate">
+                                Target Completion Date
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                id="targetDate"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="method">
+                                Investigation Method
+                            </label>
+
+                            <select id="method">
+
+                                <option value="">
+                                    Select method
+                                </option>
+
+                                <option>
+                                    Document Review
+                                </option>
+
+                                <option>
+                                    Interview
+                                </option>
+
+                                <option>
+                                    Process Review
+                                </option>
+
+                                <option>
+                                    Data Analysis
+                                </option>
+
+                                <option>
+                                    Combined Investigation
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 02
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h3>
+                        02. Investigation Findings
+                    </h3>
+
+                    <p>
+                        Record objective evidence and findings
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group full">
+
+                            <label for="findings">
+                                Investigation Findings
+                                <span class="required">*</span>
+                            </label>
+
+                            <textarea
+                                id="findings"
+                                placeholder="Record the facts established during the investigation, including relevant records reviewed, personnel consulted and evidence examined."
+                                required></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="evidence">
+                                Evidence / Records Reviewed
+                            </label>
+
+                            <textarea
+                                id="evidence"
+                                placeholder="List documents, shipment records, temperature records, correspondence, SOPs or other evidence reviewed."></textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="deviation">
+                                Process / Procedure Deviation
+                            </label>
+
+                            <select id="deviation">
+
+                                <option value="">
+                                    Select
+                                </option>
+
+                                <option>
+                                    Yes
+                                </option>
+
+                                <option>
+                                    No
+                                </option>
+
+                                <option>
+                                    Not Determined
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="repeat">
+                                Recurring / Similar Issue
+                            </label>
+
+                            <select id="repeat">
+
+                                <option value="">
+                                    Select
+                                </option>
+
+                                <option>
+                                    Yes
+                                </option>
+
+                                <option>
+                                    No
+                                </option>
+
+                                <option>
+                                    Not Determined
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 03
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h3>
+                        03. Root Cause Analysis
+                    </h3>
+
+                    <p>
+                        Identify the underlying cause of the issue
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+
+                    <div class="cause-box">
+
+
+                        <div class="cause-item">
+
+                            <h4>
+                                Immediate Cause
+                            </h4>
+
+                            <p>
+                                What directly caused the observed issue?
+                            </p>
+
+                            <textarea
+                                id="immediateCause"
+                                placeholder="Enter immediate cause"></textarea>
+
+                        </div>
+
+
+                        <div class="cause-item">
+
+                            <h4>
+                                Root Cause
+                            </h4>
+
+                            <p>
+                                What underlying system or process factor caused the issue?
+                            </p>
+
+                            <textarea
+                                id="rootCause"
+                                placeholder="Enter root cause"></textarea>
+
+                        </div>
+
+
+                        <div class="cause-item">
+
+                            <h4>
+                                Contributing Factors
+                            </h4>
+
+                            <p>
+                                Identify any additional factors contributing to the issue.
+                            </p>
+
+                            <textarea
+                                id="contributingFactors"
+                                placeholder="Enter contributing factors"></textarea>
+
+                        </div>
+
+
+                        <div class="cause-item">
+
+                            <h4>
+                                Root Cause Method
+                            </h4>
+
+                            <p>
+                                Method used to establish root cause.
+                            </p>
+
+                            <select id="rootCauseMethod">
+
+                                <option value="">
+                                    Select method
+                                </option>
+
+                                <option>
+                                    5 Why Analysis
+                                </option>
+
+                                <option>
+                                    Fishbone / Ishikawa
+                                </option>
+
+                                <option>
+                                    Fault Tree Analysis
+                                </option>
+
+                                <option>
+                                    Process Analysis
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 04
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h3>
+                        04. Risk &amp; Impact Assessment
+                    </h3>
+
+                    <p>
+                        Evaluate the significance of the confirmed issue
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="severity">
+                                Severity
+                                <span class="required">*</span>
+                            </label>
+
+                            <select id="severity" required>
+
+                                <option value="">
+                                    Select severity
+                                </option>
+
+                                <option>
+                                    Low
+                                </option>
+
+                                <option>
+                                    Medium
+                                </option>
+
+                                <option>
+                                    High
+                                </option>
+
+                                <option>
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="likelihood">
+                                Likelihood
+                                <span class="required">*</span>
+                            </label>
+
+                            <select id="likelihood" required>
+
+                                <option value="">
+                                    Select likelihood
+                                </option>
+
+                                <option>
+                                    Rare
+                                </option>
+
+                                <option>
+                                    Unlikely
+                                </option>
+
+                                <option>
+                                    Possible
+                                </option>
+
+                                <option>
+                                    Likely
+                                </option>
+
+                                <option>
+                                    Almost Certain
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="riskLevel">
+                                Overall Risk Level
+                                <span class="required">*</span>
+                            </label>
+
+                            <select id="riskLevel" required>
+
+                                <option value="">
+                                    Select risk
+                                </option>
+
+                                <option>
+                                    Low
+                                </option>
+
+                                <option>
+                                    Medium
+                                </option>
+
+                                <option>
+                                    High
+                                </option>
+
+                                <option>
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="impactArea">
+                                Impact Area
+                            </label>
+
+                            <select id="impactArea">
+
+                                <option value="">
+                                    Select impact area
+                                </option>
+
+                                <option>
+                                    Product Quality
+                                </option>
+
+                                <option>
+                                    Service Quality
+                                </option>
+
+                                <option>
+                                    Customer
+                                </option>
+
+                                <option>
+                                    Regulatory Compliance
+                                </option>
+
+                                <option>
+                                    Patient Safety
+                                </option>
+
+                                <option>
+                                    No Significant Impact
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="riskAssessment">
+                                Risk Assessment / Justification
+                            </label>
+
+                            <textarea
+                                id="riskAssessment"
+                                placeholder="Explain the basis for the assigned risk level and the potential or actual impact identified."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 05
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h3>
+                        05. CAPA Determination
+                    </h3>
+
+                    <p>
+                        Determine whether corrective and preventive action is required
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+                    <div class="decision">
+
+
+                        <div class="decision-title">
+                            Is CAPA Required?
+                            <span class="required">*</span>
+                        </div>
+
+
+                        <div class="radio-group">
+
+
+                            <div class="radio-option">
+
+                                <input
+                                    type="radio"
+                                    id="capaYes"
+                                    name="capaRequired"
+                                    value="Yes"
+                                    required>
+
+                                <label for="capaYes">
+                                    Yes — CAPA Required
+                                </label>
+
+                            </div>
+
+
+                            <div class="radio-option">
+
+                                <input
+                                    type="radio"
+                                    id="capaNo"
+                                    name="capaRequired"
+                                    value="No">
+
+                                <label for="capaNo">
+                                    No — CAPA Not Required
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <br>
+
+
+                        <div class="form-group">
+
+                            <label for="capaJustification">
+                                Justification
+                            </label>
+
+                            <textarea
+                                id="capaJustification"
+                                placeholder="Provide the rationale for the CAPA decision."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 06
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h3>
+                        06. Investigation Evidence
+                    </h3>
+
+                    <p>
+                        Attach investigation records and supporting evidence
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+                    <label
+                        class="file-upload"
+                        for="investigationFiles">
+
+                        <input
+                            type="file"
+                            id="investigationFiles"
+                            multiple>
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                        <strong>
+                            Select investigation evidence
+                        </strong>
+
+                        <span>
+                            Investigation records, photographs, correspondence or supporting documents
+                        </span>
+
+                        <div id="fileName"></div>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ACTIONS
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-actions">
+
+                    <a
+                        href="complaints.html"
+                        class="button button-secondary">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="reset"
+                        class="button button-secondary">
+
+                        Clear
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="button button-primary"
+                        id="saveButton">
+
+                        Save Investigation
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<!-- =========================================
+     SUCCESS MODAL
+========================================== -->
+
+<div
+    class="modal"
+    id="successModal">
+
+```
+<div class="modal-card">
+
+    <div class="modal-icon">
+        ✓
+    </div>
+
+    <h3>
+        Investigation Saved
+    </h3>
+
+    <p>
+        The investigation record has been saved successfully. The complaint can proceed to the next workflow stage based on the CAPA determination.
+    </p>
+
+    <button
+        class="button button-primary"
+        id="closeModal">
+
+        Continue
+
+    </button>
+
+</div>
+```
+
+</div>
+
+<script>
+
+    /* =========================================
+       DEFAULT INVESTIGATION DATE
+    ========================================== */
+
+    const investigationDate =
+        document.getElementById("investigationDate");
+
+    investigationDate.value =
+        new Date().toISOString().split("T")[0];
+
+
+    /* =========================================
+       DEFAULT TARGET DATE
+    ========================================== */
+
+    const targetDate =
+        document.getElementById("targetDate");
+
+    const target =
+        new Date();
+
+    target.setDate(
+        target.getDate() + 7
+    );
+
+    targetDate.value =
+        target.toISOString().split("T")[0];
+
+
+    /* =========================================
+       FILE DISPLAY
+    ========================================== */
+
+    const files =
+        document.getElementById("investigationFiles");
+
+    const fileName =
+        document.getElementById("fileName");
+
+
+    files.addEventListener(
+        "change",
+        function() {
+
+            if (this.files.length === 0) {
+
+                fileName.textContent = "";
+
+                return;
+            }
+
+
+            if (this.files.length === 1) {
+
+                fileName.textContent =
+                    this.files[0].name;
+
+            } else {
+
+                fileName.textContent =
+                    this.files.length +
+                    " files selected";
+
+            }
+
+        }
+    );
+
+
+    /* =========================================
+       FORM SUBMISSION
+    ========================================== */
+
+    const form =
+        document.getElementById("investigationForm");
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+    const successModal =
+        document.getElementById("successModal");
+
+
+    form.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            saveButton.disabled = true;
+
+            saveButton.textContent =
+                "Saving...";
+
+
+            /*
+             * BACKEND CONNECTION WILL BE ADDED.
+             *
+             * Investigation data will be sent
+             * to Google Apps Script and stored
+             * against the Complaint ID.
+             */
+
+
+            setTimeout(
+                function() {
+
+                    saveButton.disabled = false;
+
+                    saveButton.textContent =
+                        "Save Investigation";
+
+
+                    successModal.classList.add(
+                        "show"
+                    );
+
+                },
+                800
+            );
+
+        }
+    );
+
+
+    /* =========================================
+       CLOSE MODAL
+    ========================================== */
+
+    document
+        .getElementById("closeModal")
+        .addEventListener(
+            "click",
+            function() {
+
+                successModal.classList.remove(
+                    "show"
+                );
+
+                window.location.href =
+                    "capa.html";
+
+            }
+        );
+
+</script>
+
+</body>
+</html>
