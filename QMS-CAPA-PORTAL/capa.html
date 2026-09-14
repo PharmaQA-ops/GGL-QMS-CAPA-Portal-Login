@@ -1,1 +1,1116 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPA Management | QMS Portal</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            background: #17365d;
+            color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .brand {
+            height: 82px;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .brand img {
+            max-width: 175px;
+            max-height: 52px;
+            object-fit: contain;
+        }
+
+        .nav-section {
+            padding: 20px 15px 5px;
+            color: #9eb4ce;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 2px 10px;
+            border-radius: 7px;
+            color: #dce7f3;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.09);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: #2b5d91;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+            background: #fff;
+            border-bottom: 1px solid #e1e7ef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-title h1 {
+            font-size: 21px;
+            color: #17365d;
+            margin-bottom: 3px;
+        }
+
+        .page-title p {
+            color: #7b8794;
+            font-size: 12px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info strong {
+            display: block;
+            color: #263238;
+            font-size: 13px;
+        }
+
+        .user-info span {
+            color: #8793a1;
+            font-size: 11px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #17365d;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .logout {
+            border: 1px solid #d8e0e9;
+            background: #fff;
+            color: #536273;
+            border-radius: 6px;
+            padding: 8px 13px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .logout:hover {
+            background: #f4f7fb;
+        }
+
+        .content {
+            padding: 28px 30px 40px;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 9px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(24, 50, 80, 0.04);
+        }
+
+        .summary-label {
+            color: #7c8896;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            color: #17365d;
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .summary-sub {
+            color: #929daa;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 9px;
+            padding: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d8e0e9;
+            border-radius: 6px;
+            padding: 0 13px 0 38px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .search-box input:focus,
+        select:focus {
+            border-color: #4678aa;
+            box-shadow: 0 0 0 2px rgba(70,120,170,0.10);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 11px;
+            color: #8996a5;
+            font-size: 14px;
+        }
+
+        select {
+            height: 40px;
+            border: 1px solid #d8e0e9;
+            border-radius: 6px;
+            padding: 0 32px 0 12px;
+            background: #fff;
+            color: #4d5b6b;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .new-capa {
+            height: 40px;
+            border: none;
+            border-radius: 6px;
+            padding: 0 17px;
+            background: #17365d;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .new-capa:hover {
+            background: #214b7c;
+        }
+
+        /* ================= TABLE ================= */
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 9px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(24, 50, 80, 0.04);
+        }
+
+        .panel-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e8edf3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header h2 {
+            font-size: 15px;
+            color: #17365d;
+        }
+
+        .panel-header span {
+            color: #8a96a4;
+            font-size: 11px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+        th {
+            background: #f7f9fc;
+            color: #687687;
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 14px;
+            border-bottom: 1px solid #e2e8ef;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #edf1f5;
+            font-size: 12px;
+            color: #465363;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fafcfe;
+        }
+
+        .capa-id {
+            color: #1e5a91;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .capa-id:hover {
+            text-decoration: underline;
+        }
+
+        .subject {
+            color: #263b50;
+            font-weight: 600;
+            max-width: 250px;
+        }
+
+        /* ================= BADGES ================= */
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-open {
+            background: #e8f1fb;
+            color: #27639a;
+        }
+
+        .status-progress {
+            background: #fff4df;
+            color: #9a6814;
+        }
+
+        .status-effectiveness {
+            background: #eeeafb;
+            color: #6654a4;
+        }
+
+        .status-closed {
+            background: #e5f5ec;
+            color: #28764a;
+        }
+
+        .status-overdue {
+            background: #fdeaea;
+            color: #a43d3d;
+        }
+
+        .priority-critical {
+            background: #fde4e4;
+            color: #a52d2d;
+        }
+
+        .priority-high {
+            background: #fff0df;
+            color: #a86316;
+        }
+
+        .priority-medium {
+            background: #fff8dc;
+            color: #8b7414;
+        }
+
+        .priority-low {
+            background: #e8f4eb;
+            color: #34734a;
+        }
+
+        .type-badge {
+            background: #edf2f7;
+            color: #526477;
+            border-radius: 5px;
+            padding: 5px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ================= ACTIONS ================= */
+
+        .action-btn {
+            border: 1px solid #d7e0e8;
+            background: #fff;
+            color: #4d6175;
+            border-radius: 5px;
+            padding: 6px 9px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #f3f7fa;
+        }
+
+        /* ================= EMPTY / NOTE ================= */
+
+        .info-note {
+            margin-top: 18px;
+            padding: 13px 15px;
+            border-left: 3px solid #4d7ca8;
+            background: #f3f7fb;
+            color: #617183;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 215px;
+            }
+
+            .main {
+                margin-left: 215px;
+                width: calc(100% - 215px);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <img
+                src="https://raw.githubusercontent.com/PharmaQA-ops/ggl-main-dashboard/0c277ecd7fd7fec44cc271288154a2e8b67856fe/logo.png"
+                alt="Company Logo"
+            >
+        </div>
+
+        <div class="nav-section">Overview</div>
+
+        <a href="dashboard.html" class="nav-item">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
+
+        <div class="nav-section">Complaint Management</div>
+
+        <a href="complaint-form.html" class="nav-item">
+            <span class="nav-icon">＋</span>
+            Register Complaint
+        </a>
+
+        <a href="complaints.html" class="nav-item">
+            <span class="nav-icon">▤</span>
+            Complaint Register
+        </a>
+
+        <a href="investigation.html" class="nav-item">
+            <span class="nav-icon">⌕</span>
+            Investigation
+        </a>
+
+        <div class="nav-section">CAPA</div>
+
+        <a href="capa.html" class="nav-item active">
+            <span class="nav-icon">✓</span>
+            CAPA Register
+        </a>
+
+        <a href="my-tasks.html" class="nav-item">
+            <span class="nav-icon">☑</span>
+            My Tasks
+        </a>
+
+        <div class="nav-section">Analysis</div>
+
+        <a href="reports.html" class="nav-item">
+            <span class="nav-icon">▥</span>
+            Reports
+        </a>
+
+        <div class="nav-section">Administration</div>
+
+        <a href="users.html" class="nav-item">
+            <span class="nav-icon">♙</span>
+            User Management
+        </a>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="page-title">
+                <h1>CAPA Register</h1>
+                <p>Corrective and Preventive Action Management</p>
+            </div>
+
+            <div class="user-area">
+
+                <div class="user-info">
+                    <strong id="userName">Admin User</strong>
+                    <span id="userRole">Administrator</span>
+                </div>
+
+                <div class="avatar" id="avatar">
+                    AU
+                </div>
+
+                <button class="logout" onclick="logout()">
+                    Logout
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- ================= SUMMARY ================= -->
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <div class="summary-label">Total CAPA</div>
+                    <div class="summary-value">18</div>
+                    <div class="summary-sub">All registered CAPA</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">Open</div>
+                    <div class="summary-value">05</div>
+                    <div class="summary-sub">Awaiting action</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">In Progress</div>
+                    <div class="summary-value">06</div>
+                    <div class="summary-sub">Actions underway</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">Effectiveness</div>
+                    <div class="summary-value">04</div>
+                    <div class="summary-sub">Pending verification</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">Overdue</div>
+                    <div class="summary-value">03</div>
+                    <div class="summary-sub">Requires attention</div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= TOOLBAR ================= -->
+
+            <div class="toolbar">
+
+                <div class="search-box">
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search CAPA ID, complaint, subject or owner..."
+                        onkeyup="filterTable()"
+                    >
+                </div>
+
+                <select id="statusFilter" onchange="filterTable()">
+                    <option value="">All Status</option>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Pending Effectiveness">Pending Effectiveness</option>
+                    <option value="Closed">Closed</option>
+                    <option value="Overdue">Overdue</option>
+                </select>
+
+                <select id="priorityFilter" onchange="filterTable()">
+                    <option value="">All Priority</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+
+                <select id="typeFilter" onchange="filterTable()">
+                    <option value="">All Types</option>
+                    <option value="Corrective">Corrective</option>
+                    <option value="Preventive">Preventive</option>
+                    <option value="Corrective + Preventive">Corrective + Preventive</option>
+                </select>
+
+                <button class="new-capa" onclick="newCAPA()">
+                    + New CAPA
+                </button>
+
+            </div>
+
+
+            <!-- ================= TABLE ================= -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>CAPA Records</h2>
+                    <span id="recordCount">Showing 6 records</span>
+                </div>
+
+                <div class="table-wrap">
+
+                    <table id="capaTable">
+
+                        <thead>
+                            <tr>
+                                <th>CAPA ID</th>
+                                <th>Linked Complaint</th>
+                                <th>CAPA Subject</th>
+                                <th>Type</th>
+                                <th>Priority</th>
+                                <th>Responsible Person</th>
+                                <th>Target Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <span class="capa-id" onclick="openCAPA('CAPA-2026-018')">
+                                        CAPA-2026-018
+                                    </span>
+                                </td>
+
+                                <td>CMP-2026-024</td>
+
+                                <td class="subject">
+                                    Temperature excursion investigation and control improvement
+                                </td>
+
+                                <td>
+                                    <span class="type-badge">
+                                        Corrective + Preventive
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge priority-critical">
+                                        Critical
+                                    </span>
+                                </td>
+
+                                <td>R. Kumar</td>
+
+                                <td>20-Sep-2026</td>
+
+                                <td>
+                                    <span class="badge status-progress">
+                                        In Progress
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn"
+                                        onclick="openCAPA('CAPA-2026-018')">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <span class="capa-id" onclick="openCAPA('CAPA-2026-017')">
+                                        CAPA-2026-017
+                                    </span>
+                                </td>
+
+                                <td>CMP-2026-022</td>
+
+                                <td class="subject">
+                                    Documentation error prevention and review control
+                                </td>
+
+                                <td>
+                                    <span class="type-badge">
+                                        Preventive
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge priority-high">
+                                        High
+                                    </span>
+                                </td>
+
+                                <td>S. Priya</td>
+
+                                <td>18-Sep-2026</td>
+
+                                <td>
+                                    <span class="badge status-open">
+                                        Open
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn"
+                                        onclick="openCAPA('CAPA-2026-017')">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <span class="capa-id" onclick="openCAPA('CAPA-2026-016')">
+                                        CAPA-2026-016
+                                    </span>
+                                </td>
+
+                                <td>CMP-2026-020</td>
+
+                                <td class="subject">
+                                    Shipment handling process deviation
+                                </td>
+
+                                <td>
+                                    <span class="type-badge">
+                                        Corrective
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge priority-high">
+                                        High
+                                    </span>
+                                </td>
+
+                                <td>A. Mohamed</td>
+
+                                <td>15-Sep-2026</td>
+
+                                <td>
+                                    <span class="badge status-effectiveness">
+                                        Pending Effectiveness
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn"
+                                        onclick="openCAPA('CAPA-2026-016')">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <span class="capa-id" onclick="openCAPA('CAPA-2026-015')">
+                                        CAPA-2026-015
+                                    </span>
+                                </td>
+
+                                <td>CMP-2026-019</td>
+
+                                <td class="subject">
+                                    Customer communication process improvement
+                                </td>
+
+                                <td>
+                                    <span class="type-badge">
+                                        Corrective
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge priority-medium">
+                                        Medium
+                                    </span>
+                                </td>
+
+                                <td>V. Anand</td>
+
+                                <td>10-Sep-2026</td>
+
+                                <td>
+                                    <span class="badge status-closed">
+                                        Closed
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn"
+                                        onclick="openCAPA('CAPA-2026-015')">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <span class="capa-id" onclick="openCAPA('CAPA-2026-014')">
+                                        CAPA-2026-014
+                                    </span>
+                                </td>
+
+                                <td>CMP-2026-018</td>
+
+                                <td class="subject">
+                                    Packaging inspection control enhancement
+                                </td>
+
+                                <td>
+                                    <span class="type-badge">
+                                        Preventive
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge priority-medium">
+                                        Medium
+                                    </span>
+                                </td>
+
+                                <td>P. Rajesh</td>
+
+                                <td>08-Sep-2026</td>
+
+                                <td>
+                                    <span class="badge status-overdue">
+                                        Overdue
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn"
+                                        onclick="openCAPA('CAPA-2026-014')">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <span class="capa-id" onclick="openCAPA('CAPA-2026-013')">
+                                        CAPA-2026-013
+                                    </span>
+                                </td>
+
+                                <td>CMP-2026-016</td>
+
+                                <td class="subject">
+                                    Delivery exception root cause and corrective action
+                                </td>
+
+                                <td>
+                                    <span class="type-badge">
+                                        Corrective
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge priority-low">
+                                        Low
+                                    </span>
+                                </td>
+
+                                <td>K. Suresh</td>
+
+                                <td>05-Sep-2026</td>
+
+                                <td>
+                                    <span class="badge status-closed">
+                                        Closed
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn"
+                                        onclick="openCAPA('CAPA-2026-013')">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-note">
+                CAPA records shown here are currently sample frontend data.
+                In the connected version, CAPA records, status, responsibilities,
+                target dates, effectiveness reviews and closure information will
+                be retrieved from Google Sheets through the Apps Script backend.
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* ================= TABLE FILTER ================= */
+
+    function filterTable() {
+
+        const search =
+            document.getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+        const status =
+            document.getElementById("statusFilter")
+            .value
+            .toLowerCase();
+
+        const priority =
+            document.getElementById("priorityFilter")
+            .value
+            .toLowerCase();
+
+        const type =
+            document.getElementById("typeFilter")
+            .value
+            .toLowerCase();
+
+        const rows =
+            document.querySelectorAll("#capaTable tbody tr");
+
+        let visible = 0;
+
+        rows.forEach(row => {
+
+            const text =
+                row.innerText.toLowerCase();
+
+            const matchesSearch =
+                !search || text.includes(search);
+
+            const matchesStatus =
+                !status || text.includes(status);
+
+            const matchesPriority =
+                !priority || text.includes(priority);
+
+            const matchesType =
+                !type || text.includes(type);
+
+            const show =
+                matchesSearch &&
+                matchesStatus &&
+                matchesPriority &&
+                matchesType;
+
+            row.style.display =
+                show ? "" : "none";
+
+            if (show) {
+                visible++;
+            }
+
+        });
+
+        document.getElementById("recordCount").textContent =
+            "Showing " + visible + " records";
+    }
+
+
+    /* ================= CAPA ================= */
+
+    function openCAPA(id) {
+
+        alert(
+            "CAPA: " + id +
+            "\n\nDetailed CAPA record will open here after the Apps Script backend is connected."
+        );
+    }
+
+
+    function newCAPA() {
+
+        alert(
+            "New CAPA registration will be connected to the CAPA workflow after the Apps Script backend is implemented."
+        );
+    }
+
+
+    /* ================= LOGOUT ================= */
+
+    function logout() {
+
+        if (confirm("Are you sure you want to logout?")) {
+
+            window.location.href = "index.html";
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
+```
