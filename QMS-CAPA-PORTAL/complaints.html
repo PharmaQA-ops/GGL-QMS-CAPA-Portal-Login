@@ -1,1 +1,1618 @@
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>QMS Portal | Register Complaint</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f8;
+        color: #1f2933;
+    }
+
+    .app {
+        min-height: 100vh;
+    }
+
+    /* ================================
+       SIDEBAR
+    ================================= */
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: 245px;
+
+        background: #17365d;
+        color: #ffffff;
+
+        z-index: 100;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-brand {
+        padding: 22px 20px;
+
+        text-align: center;
+
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .sidebar-brand img {
+        width: auto;
+        max-width: 155px;
+        max-height: 58px;
+    }
+
+    .sidebar-title {
+        margin-top: 10px;
+
+        color: rgba(255,255,255,0.72);
+
+        font-size: 12px;
+    }
+
+    .navigation {
+        flex: 1;
+
+        padding: 18px 12px;
+
+        overflow-y: auto;
+    }
+
+    .nav-section {
+        margin-bottom: 22px;
+    }
+
+    .nav-heading {
+        padding: 0 12px 8px;
+
+        color: rgba(255,255,255,0.48);
+
+        font-size: 10px;
+        font-weight: 700;
+
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+
+    .nav-item {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+
+        padding: 11px 12px;
+        margin-bottom: 3px;
+
+        border-radius: 7px;
+
+        color: rgba(255,255,255,0.82);
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+    .nav-item:hover {
+        background: rgba(255,255,255,0.09);
+        color: #ffffff;
+    }
+
+    .nav-item.active {
+        background: rgba(255,255,255,0.15);
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    .nav-icon {
+        width: 25px;
+        font-size: 15px;
+    }
+
+    .sidebar-footer {
+        padding: 15px 18px;
+
+        border-top: 1px solid rgba(255,255,255,0.12);
+
+        color: rgba(255,255,255,0.55);
+
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    /* ================================
+       MAIN
+    ================================= */
+
+    .main {
+        margin-left: 245px;
+        min-height: 100vh;
+    }
+
+    /* ================================
+       TOPBAR
+    ================================= */
+
+    .topbar {
+        height: 70px;
+
+        padding: 0 30px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: sticky;
+        top: 0;
+
+        z-index: 50;
+    }
+
+    .page-title h1 {
+        color: #17365d;
+
+        font-size: 20px;
+
+        margin-bottom: 3px;
+    }
+
+    .page-title p {
+        color: #9ca3af;
+
+        font-size: 11px;
+    }
+
+    .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .back-button {
+        padding: 8px 13px;
+
+        background: #ffffff;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        color: #374151;
+
+        text-decoration: none;
+
+        font-size: 11px;
+    }
+
+    .back-button:hover {
+        background: #f9fafb;
+    }
+
+    /* ================================
+       CONTENT
+    ================================= */
+
+    .content {
+        padding: 28px 30px 45px;
+
+        max-width: 1200px;
+    }
+
+    /* ================================
+       FORM INTRO
+    ================================= */
+
+    .intro {
+        margin-bottom: 22px;
+    }
+
+    .intro h2 {
+        color: #1f2937;
+
+        font-size: 18px;
+
+        margin-bottom: 5px;
+    }
+
+    .intro p {
+        color: #6b7280;
+
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    /* ================================
+       FORM CARD
+    ================================= */
+
+    .form-card {
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+
+        margin-bottom: 18px;
+
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        padding: 16px 20px;
+
+        background: #fafbfc;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .form-card-header h3 {
+        color: #374151;
+
+        font-size: 13px;
+
+        margin-bottom: 3px;
+    }
+
+    .form-card-header p {
+        color: #9ca3af;
+
+        font-size: 10px;
+    }
+
+    .form-card-body {
+        padding: 22px 20px;
+    }
+
+    /* ================================
+       FORM GRID
+    ================================= */
+
+    .form-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 18px 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        color: #374151;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        margin-bottom: 7px;
+    }
+
+    .required {
+        color: #dc2626;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #374151;
+
+        font-family: inherit;
+        font-size: 12px;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .form-group input,
+    .form-group select {
+        height: 42px;
+
+        padding: 0 12px;
+    }
+
+    .form-group textarea {
+        min-height: 110px;
+
+        padding: 11px 12px;
+
+        resize: vertical;
+
+        line-height: 1.5;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #17365d;
+
+        box-shadow:
+            0 0 0 3px rgba(23,54,93,0.08);
+    }
+
+    .help-text {
+        margin-top: 5px;
+
+        color: #9ca3af;
+
+        font-size: 9px;
+        line-height: 1.4;
+    }
+
+    /* ================================
+       RADIO GROUP
+    ================================= */
+
+    .radio-group {
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: 9px;
+    }
+
+    .radio-option {
+        position: relative;
+    }
+
+    .radio-option input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .radio-option label {
+        display: block;
+
+        padding: 9px 14px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #4b5563;
+
+        cursor: pointer;
+
+        font-size: 11px;
+
+        transition:
+            border-color 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .radio-option input:checked + label {
+        border-color: #17365d;
+
+        background: #eef3f8;
+
+        color: #17365d;
+
+        font-weight: 600;
+    }
+
+    /* ================================
+       FILE UPLOAD
+    ================================= */
+
+    .file-upload {
+        border: 1px dashed #cbd5e1;
+
+        border-radius: 8px;
+
+        padding: 20px;
+
+        text-align: center;
+
+        background: #fafbfc;
+
+        cursor: pointer;
+    }
+
+    .file-upload:hover {
+        background: #f5f7f9;
+    }
+
+    .file-upload input {
+        display: none;
+    }
+
+    .upload-icon {
+        font-size: 22px;
+
+        color: #17365d;
+
+        margin-bottom: 7px;
+    }
+
+    .file-upload strong {
+        display: block;
+
+        color: #374151;
+
+        font-size: 11px;
+
+        margin-bottom: 4px;
+    }
+
+    .file-upload span {
+        color: #9ca3af;
+
+        font-size: 9px;
+    }
+
+    #fileName {
+        margin-top: 8px;
+
+        color: #17365d;
+
+        font-size: 10px;
+    }
+
+    /* ================================
+       ACTIONS
+    ================================= */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+
+        gap: 10px;
+
+        padding: 18px 20px;
+
+        background: #fafbfc;
+
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .button {
+        height: 40px;
+
+        padding: 0 18px;
+
+        border-radius: 7px;
+
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .button-secondary {
+        background: #ffffff;
+
+        border: 1px solid #d1d5db;
+
+        color: #374151;
+    }
+
+    .button-primary {
+        background: #17365d;
+
+        border: 1px solid #17365d;
+
+        color: #ffffff;
+    }
+
+    .button-primary:hover {
+        background: #102a49;
+    }
+
+    .button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    /* ================================
+       SUCCESS MODAL
+    ================================= */
+
+    .modal {
+        display: none;
+
+        position: fixed;
+        inset: 0;
+
+        background: rgba(0,0,0,0.45);
+
+        align-items: center;
+        justify-content: center;
+
+        z-index: 500;
+
+        padding: 20px;
+    }
+
+    .modal.show {
+        display: flex;
+    }
+
+    .modal-card {
+        width: 100%;
+        max-width: 430px;
+
+        background: #ffffff;
+
+        border-radius: 12px;
+
+        padding: 30px;
+
+        text-align: center;
+
+        box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .modal-icon {
+        width: 50px;
+        height: 50px;
+
+        margin: 0 auto 15px;
+
+        border-radius: 50%;
+
+        background: #f0fdf4;
+
+        color: #15803d;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 22px;
+    }
+
+    .modal-card h3 {
+        color: #17365d;
+
+        font-size: 17px;
+
+        margin-bottom: 7px;
+    }
+
+    .modal-card p {
+        color: #6b7280;
+
+        font-size: 11px;
+        line-height: 1.6;
+
+        margin-bottom: 18px;
+    }
+
+    .complaint-number {
+        display: inline-block;
+
+        padding: 8px 13px;
+
+        margin-bottom: 20px;
+
+        border-radius: 6px;
+
+        background: #eef3f8;
+
+        color: #17365d;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+
+    @media (max-width: 850px) {
+
+        .sidebar {
+            width: 68px;
+        }
+
+        .sidebar-brand {
+            padding: 18px 8px;
+        }
+
+        .sidebar-brand img {
+            max-width: 45px;
+            max-height: 45px;
+        }
+
+        .sidebar-title,
+        .nav-heading,
+        .nav-item span,
+        .sidebar-footer {
+            display: none;
+        }
+
+        .nav-item {
+            justify-content: center;
+            padding: 12px 5px;
+        }
+
+        .nav-icon {
+            width: auto;
+            font-size: 17px;
+        }
+
+        .main {
+            margin-left: 68px;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .topbar {
+            padding: 0 16px;
+        }
+
+        .content {
+            padding: 20px 16px 35px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .page-title p {
+            display: none;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .button {
+            width: 100%;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="app">
+
+```
+<!-- =========================================
+     SIDEBAR
+========================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img
+            src="https://raw.githubusercontent.com/PharmaQA-ops/ggl-main-dashboard/0c277ecd7fd7fec44cc271288154a2e8b67856fe/logo.png"
+            alt="Gaerish Logistics">
+
+        <div class="sidebar-title">
+            Quality Management System
+        </div>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Overview
+            </div>
+
+            <a href="dashboard.html" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Complaint Management
+            </div>
+
+            <a
+                href="complaint-form.html"
+                class="nav-item active">
+
+                <span class="nav-icon">＋</span>
+                <span>Register Complaint</span>
+
+            </a>
+
+            <a
+                href="complaints.html"
+                class="nav-item">
+
+                <span class="nav-icon">▤</span>
+                <span>Complaint Register</span>
+
+            </a>
+
+            <a
+                href="investigation.html"
+                class="nav-item">
+
+                <span class="nav-icon">⌕</span>
+                <span>Investigation</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                CAPA
+            </div>
+
+            <a
+                href="capa.html"
+                class="nav-item">
+
+                <span class="nav-icon">✓</span>
+                <span>CAPA Register</span>
+
+            </a>
+
+            <a
+                href="my-tasks.html"
+                class="nav-item">
+
+                <span class="nav-icon">☑</span>
+                <span>My Tasks</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Analysis
+            </div>
+
+            <a
+                href="reports.html"
+                class="nav-item">
+
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-heading">
+                Administration
+            </div>
+
+            <a
+                href="users.html"
+                class="nav-item">
+
+                <span class="nav-icon">♙</span>
+                <span>User Management</span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        QMS Portal<br>
+        Complaint &amp; CAPA Management
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================
+     MAIN
+========================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="page-title">
+
+            <h1>
+                Register Complaint
+            </h1>
+
+            <p>
+                Complaint Management
+            </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <a
+                href="complaints.html"
+                class="back-button">
+
+                Complaint Register
+
+            </a>
+
+            <a
+                href="dashboard.html"
+                class="back-button">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <div class="intro">
+
+            <h2>
+                New Complaint Registration
+            </h2>
+
+            <p>
+                Please provide the available information regarding the complaint. Required fields are marked with an asterisk.
+            </p>
+
+        </div>
+
+
+        <form id="complaintForm">
+
+
+            <!-- =================================
+                 SECTION 1
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-card-header">
+
+                    <h3>
+                        01. Complaint Information
+                    </h3>
+
+                    <p>
+                        Basic information about the complaint
+                    </p>
+
+                </div>
+
+
+                <div class="form-card-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="complaintDate">
+                                Date Received
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                id="complaintDate"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="source">
+                                Complaint Source
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="source"
+                                required>
+
+                                <option value="">
+                                    Select source
+                                </option>
+
+                                <option>
+                                    Customer
+                                </option>
+
+                                <option>
+                                    Internal
+                                </option>
+
+                                <option>
+                                    Supplier
+                                </option>
+
+                                <option>
+                                    Regulatory Authority
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="customer">
+                                Customer / Complainant
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customer"
+                                placeholder="Enter customer / complainant name"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="contact">
+                                Contact Details
+                            </label>
+
+                            <input
+                                type="text"
+                                id="contact"
+                                placeholder="Email / phone / other contact">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="reference">
+                                Shipment / Reference No.
+                            </label>
+
+                            <input
+                                type="text"
+                                id="reference"
+                                placeholder="Enter shipment, AWB, HAWB or reference number">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="product">
+                                Product / Service
+                            </label>
+
+                            <input
+                                type="text"
+                                id="product"
+                                placeholder="Enter product or service">
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="subject">
+                                Complaint Subject
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                placeholder="Briefly describe the complaint"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="description">
+                                Complaint Description
+                                <span class="required">*</span>
+                            </label>
+
+                            <textarea
+                                id="description"
+                                placeholder="Provide a clear description of the complaint, including relevant facts, dates and circumstances."
+                                required></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 2
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-card-header">
+
+                    <h3>
+                        02. Initial Assessment
+                    </h3>
+
+                    <p>
+                        Preliminary classification and impact assessment
+                    </p>
+
+                </div>
+
+
+                <div class="form-card-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Initial Priority
+                                <span class="required">*</span>
+                            </label>
+
+                            <div class="radio-group">
+
+
+                                <div class="radio-option">
+
+                                    <input
+                                        type="radio"
+                                        id="priorityLow"
+                                        name="priority"
+                                        value="Low"
+                                        required>
+
+                                    <label for="priorityLow">
+                                        Low
+                                    </label>
+
+                                </div>
+
+
+                                <div class="radio-option">
+
+                                    <input
+                                        type="radio"
+                                        id="priorityMedium"
+                                        name="priority"
+                                        value="Medium">
+
+                                    <label for="priorityMedium">
+                                        Medium
+                                    </label>
+
+                                </div>
+
+
+                                <div class="radio-option">
+
+                                    <input
+                                        type="radio"
+                                        id="priorityHigh"
+                                        name="priority"
+                                        value="High">
+
+                                    <label for="priorityHigh">
+                                        High
+                                    </label>
+
+                                </div>
+
+
+                                <div class="radio-option">
+
+                                    <input
+                                        type="radio"
+                                        id="priorityCritical"
+                                        name="priority"
+                                        value="Critical">
+
+                                    <label for="priorityCritical">
+                                        Critical
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="category">
+                                Complaint Category
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="category"
+                                required>
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option>
+                                    Service Quality
+                                </option>
+
+                                <option>
+                                    Documentation
+                                </option>
+
+                                <option>
+                                    Shipment Handling
+                                </option>
+
+                                <option>
+                                    Temperature Control
+                                </option>
+
+                                <option>
+                                    Delivery
+                                </option>
+
+                                <option>
+                                    Regulatory / Compliance
+                                </option>
+
+                                <option>
+                                    Communication
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="impact">
+                                Initial Impact / Risk Assessment
+                            </label>
+
+                            <textarea
+                                id="impact"
+                                placeholder="Describe the known or potential impact on product, service, customer, regulatory compliance or patient safety, where applicable."></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="containment">
+                                Immediate Containment / Action Taken
+                            </label>
+
+                            <textarea
+                                id="containment"
+                                placeholder="Record any immediate action taken to control or contain the issue."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SECTION 3
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-card-header">
+
+                    <h3>
+                        03. Supporting Evidence
+                    </h3>
+
+                    <p>
+                        Attach relevant documents or evidence
+                    </p>
+
+                </div>
+
+
+                <div class="form-card-body">
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label>
+                                Supporting Documents
+                            </label>
+
+                            <label
+                                class="file-upload"
+                                for="attachments">
+
+                                <input
+                                    type="file"
+                                    id="attachments"
+                                    multiple>
+
+                                <div class="upload-icon">
+                                    ↑
+                                </div>
+
+                                <strong>
+                                    Select supporting files
+                                </strong>
+
+                                <span>
+                                    Photos, documents, emails or other relevant evidence
+                                </span>
+
+                                <div id="fileName"></div>
+
+                            </label>
+
+                            <div class="help-text">
+                                File upload will be connected to the document repository when the backend is implemented.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ACTIONS
+            ================================== -->
+
+            <div class="form-card">
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="button button-secondary"
+                        id="cancelButton">
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="reset"
+                        class="button button-secondary">
+
+                        Clear
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="button button-primary"
+                        id="submitButton">
+
+                        Submit Complaint
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<!-- =========================================
+     SUCCESS MODAL
+========================================== -->
+
+<div
+    class="modal"
+    id="successModal">
+
+```
+<div class="modal-card">
+
+    <div class="modal-icon">
+        ✓
+    </div>
+
+    <h3>
+        Complaint Registered
+    </h3>
+
+    <p>
+        The complaint has been successfully recorded and assigned a unique reference number.
+    </p>
+
+    <div
+        class="complaint-number"
+        id="generatedComplaintId">
+
+        CMP-2026-025
+
+    </div>
+
+    <br>
+
+    <button
+        class="button button-primary"
+        id="closeModal">
+
+        Continue
+
+    </button>
+
+</div>
+```
+
+</div>
+
+<script>
+
+    /* ================================
+       DEFAULT DATE
+    ================================= */
+
+    const complaintDate =
+        document.getElementById("complaintDate");
+
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    complaintDate.value = today;
+
+
+    /* ================================
+       FILE NAME
+    ================================= */
+
+    const attachments =
+        document.getElementById("attachments");
+
+    const fileName =
+        document.getElementById("fileName");
+
+
+    attachments.addEventListener(
+        "change",
+        function () {
+
+            if (this.files.length === 0) {
+
+                fileName.textContent = "";
+
+                return;
+            }
+
+
+            if (this.files.length === 1) {
+
+                fileName.textContent =
+                    this.files[0].name;
+
+            } else {
+
+                fileName.textContent =
+                    this.files.length +
+                    " files selected";
+
+            }
+
+        }
+    );
+
+
+    /* ================================
+       FORM SUBMISSION
+    ================================= */
+
+    const complaintForm =
+        document.getElementById("complaintForm");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const successModal =
+        document.getElementById("successModal");
+
+
+    complaintForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                "Submitting...";
+
+
+            /*
+             * BACKEND CONNECTION WILL BE ADDED HERE.
+             *
+             * Data will eventually be sent to:
+             *
+             * GitHub
+             *      ↓
+             * Apps Script API
+             *      ↓
+             * COMPLAINTS sheet
+             *      ↓
+             * Generate Complaint ID
+             *      ↓
+             * Workflow
+             */
+
+
+            setTimeout(
+                function () {
+
+                    submitButton.disabled = false;
+
+                    submitButton.textContent =
+                        "Submit Complaint";
+
+
+                    document.getElementById(
+                        "generatedComplaintId"
+                    ).textContent =
+                        "CMP-2026-025";
+
+
+                    successModal.classList.add(
+                        "show"
+                    );
+
+                },
+                800
+            );
+
+        }
+    );
+
+
+    /* ================================
+       CLOSE MODAL
+    ================================= */
+
+    document
+        .getElementById("closeModal")
+        .addEventListener(
+            "click",
+            function () {
+
+                successModal.classList.remove(
+                    "show"
+                );
+
+                window.location.href =
+                    "complaints.html";
+
+            }
+        );
+
+
+    /* ================================
+       CANCEL
+    ================================= */
+
+    document
+        .getElementById("cancelButton")
+        .addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "dashboard.html";
+
+            }
+        );
+
+</script>
+
+</body>
+</html>
