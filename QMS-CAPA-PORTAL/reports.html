@@ -1,1 +1,1136 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | QMS Portal</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            background: #17365d;
+            color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .brand {
+            height: 82px;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .brand img {
+            max-width: 175px;
+            max-height: 52px;
+            object-fit: contain;
+        }
+
+        .nav-section {
+            padding: 20px 15px 5px;
+            color: #9eb4ce;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 2px 10px;
+            border-radius: 7px;
+            color: #dce7f3;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.09);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: #2b5d91;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+            background: #fff;
+            border-bottom: 1px solid #e1e7ef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-title h1 {
+            font-size: 21px;
+            color: #17365d;
+            margin-bottom: 3px;
+        }
+
+        .page-title p {
+            color: #7b8794;
+            font-size: 12px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info strong {
+            display: block;
+            color: #263238;
+            font-size: 13px;
+        }
+
+        .user-info span {
+            color: #8793a1;
+            font-size: 11px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #17365d;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .logout {
+            border: 1px solid #d8e0e9;
+            background: #fff;
+            color: #536273;
+            border-radius: 6px;
+            padding: 8px 13px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .logout:hover {
+            background: #f4f7fb;
+        }
+
+        .content {
+            padding: 28px 30px 40px;
+        }
+
+        /* ================= REPORT FILTER ================= */
+
+        .report-toolbar {
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 9px;
+            padding: 17px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: end;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            min-width: 155px;
+        }
+
+        .filter-group label {
+            display: block;
+            color: #687687;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 6px;
+        }
+
+        select {
+            width: 100%;
+            height: 39px;
+            border: 1px solid #d8e0e9;
+            border-radius: 6px;
+            padding: 0 12px;
+            background: #fff;
+            color: #4d5b6b;
+            font-size: 12px;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #4678aa;
+            box-shadow: 0 0 0 2px rgba(70,120,170,0.10);
+        }
+
+        .apply-btn {
+            height: 39px;
+            border: none;
+            border-radius: 6px;
+            padding: 0 18px;
+            background: #17365d;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .apply-btn:hover {
+            background: #214b7c;
+        }
+
+        /* ================= KPI ================= */
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 13px;
+            margin-bottom: 20px;
+        }
+
+        .kpi {
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 9px;
+            padding: 17px;
+            box-shadow: 0 2px 8px rgba(24,50,80,0.04);
+        }
+
+        .kpi-label {
+            color: #7c8896;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+            margin-bottom: 7px;
+        }
+
+        .kpi-value {
+            color: #17365d;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .kpi-note {
+            color: #909aa6;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        /* ================= REPORT GRID ================= */
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 9px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(24,50,80,0.04);
+        }
+
+        .panel-header {
+            padding: 17px 19px;
+            border-bottom: 1px solid #e8edf3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h2 {
+            font-size: 14px;
+            color: #17365d;
+        }
+
+        .panel-header span {
+            color: #8a96a4;
+            font-size: 10px;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        /* ================= BAR CHART ================= */
+
+        .bar-chart {
+            height: 230px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 18px;
+            padding: 10px 10px 0;
+            border-bottom: 1px solid #dfe6ee;
+        }
+
+        .bar-column {
+            height: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .bar-value {
+            color: #526477;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .bar {
+            width: 42px;
+            max-width: 80%;
+            background: #4d78a5;
+            border-radius: 5px 5px 0 0;
+            min-height: 8px;
+            transition: height .4s ease;
+        }
+
+        .bar-label {
+            color: #7c8896;
+            font-size: 10px;
+            margin-top: 8px;
+            white-space: nowrap;
+        }
+
+        /* ================= DONUT ================= */
+
+        .donut-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 35px;
+            min-height: 230px;
+        }
+
+        .donut {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            background:
+                conic-gradient(
+                    #3c6f9f 0deg 150deg,
+                    #7d9cba 150deg 225deg,
+                    #b6c7d8 225deg 285deg,
+                    #dce5ed 285deg 360deg
+                );
+            position: relative;
+        }
+
+        .donut::after {
+            content: "";
+            position: absolute;
+            width: 95px;
+            height: 95px;
+            background: #fff;
+            border-radius: 50%;
+            left: 35px;
+            top: 35px;
+        }
+
+        .donut-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .donut-center strong {
+            font-size: 25px;
+            color: #17365d;
+        }
+
+        .donut-center span {
+            color: #8793a1;
+            font-size: 10px;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #657384;
+            font-size: 11px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-1 { background: #3c6f9f; }
+        .dot-2 { background: #7d9cba; }
+        .dot-3 { background: #b6c7d8; }
+        .dot-4 { background: #dce5ed; }
+
+        /* ================= FULL WIDTH ================= */
+
+        .full-panel {
+            margin-bottom: 18px;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f7f9fc;
+            color: #687687;
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: 12px 14px;
+            border-bottom: 1px solid #e2e8ef;
+        }
+
+        td {
+            padding: 13px 14px;
+            border-bottom: 1px solid #edf1f5;
+            font-size: 11px;
+            color: #465363;
+        }
+
+        tbody tr:hover {
+            background: #fafcfe;
+        }
+
+        .number {
+            font-weight: 700;
+            color: #17365d;
+        }
+
+        .trend-up {
+            color: #a86316;
+            font-weight: 700;
+        }
+
+        .trend-down {
+            color: #28764a;
+            font-weight: 700;
+        }
+
+        /* ================= INFO ================= */
+
+        .info-note {
+            padding: 13px 15px;
+            border-left: 3px solid #4d7ca8;
+            background: #f3f7fb;
+            color: #617183;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1250px) {
+            .kpi-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 950px) {
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 215px;
+            }
+
+            .main {
+                margin-left: 215px;
+                width: calc(100% - 215px);
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .donut-area {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <img
+                src="https://raw.githubusercontent.com/PharmaQA-ops/ggl-main-dashboard/0c277ecd7fd7fec44cc271288154a2e8b67856fe/logo.png"
+                alt="Company Logo"
+            >
+        </div>
+
+        <div class="nav-section">Overview</div>
+
+        <a href="dashboard.html" class="nav-item">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
+
+        <div class="nav-section">Complaint Management</div>
+
+        <a href="complaint-form.html" class="nav-item">
+            <span class="nav-icon">＋</span>
+            Register Complaint
+        </a>
+
+        <a href="complaints.html" class="nav-item">
+            <span class="nav-icon">▤</span>
+            Complaint Register
+        </a>
+
+        <a href="investigation.html" class="nav-item">
+            <span class="nav-icon">⌕</span>
+            Investigation
+        </a>
+
+        <div class="nav-section">CAPA</div>
+
+        <a href="capa.html" class="nav-item">
+            <span class="nav-icon">✓</span>
+            CAPA Register
+        </a>
+
+        <a href="my-tasks.html" class="nav-item">
+            <span class="nav-icon">☑</span>
+            My Tasks
+        </a>
+
+        <div class="nav-section">Analysis</div>
+
+        <a href="reports.html" class="nav-item active">
+            <span class="nav-icon">▥</span>
+            Reports
+        </a>
+
+        <div class="nav-section">Administration</div>
+
+        <a href="users.html" class="nav-item">
+            <span class="nav-icon">♙</span>
+            User Management
+        </a>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="page-title">
+                <h1>QMS Reports & Analytics</h1>
+                <p>Complaint, Investigation, CAPA and Effectiveness Analysis</p>
+            </div>
+
+            <div class="user-area">
+
+                <div class="user-info">
+                    <strong id="userName">Admin User</strong>
+                    <span id="userRole">Administrator</span>
+                </div>
+
+                <div class="avatar">
+                    AU
+                </div>
+
+                <button class="logout" onclick="logout()">
+                    Logout
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- ================= FILTERS ================= -->
+
+            <div class="report-toolbar">
+
+                <div class="filter-group">
+                    <label>Financial Year</label>
+
+                    <select id="fy">
+                        <option>FY 2026-27</option>
+                        <option>FY 2025-26</option>
+                        <option>FY 2024-25</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Period</label>
+
+                    <select id="period">
+                        <option>Year to Date</option>
+                        <option>Current Month</option>
+                        <option>Last 3 Months</option>
+                        <option>Last 6 Months</option>
+                        <option>Custom Period</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Module</label>
+
+                    <select id="module">
+                        <option>All Modules</option>
+                        <option>Complaints</option>
+                        <option>Investigation</option>
+                        <option>CAPA</option>
+                        <option>Effectiveness</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Category</label>
+
+                    <select id="category">
+                        <option>All Categories</option>
+                        <option>Service Quality</option>
+                        <option>Documentation</option>
+                        <option>Shipment Handling</option>
+                        <option>Temperature Control</option>
+                        <option>Delivery</option>
+                        <option>Regulatory / Compliance</option>
+                        <option>Communication</option>
+                    </select>
+                </div>
+
+                <button class="apply-btn" onclick="applyFilters()">
+                    Apply Filters
+                </button>
+
+            </div>
+
+
+            <!-- ================= KPI ================= -->
+
+            <div class="kpi-grid">
+
+                <div class="kpi">
+                    <div class="kpi-label">Complaints</div>
+                    <div class="kpi-value">24</div>
+                    <div class="kpi-note">FY 2026-27 YTD</div>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Closed Complaints</div>
+                    <div class="kpi-value">09</div>
+                    <div class="kpi-note">37.5% of total</div>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">CAPA</div>
+                    <div class="kpi-value">18</div>
+                    <div class="kpi-note">Generated cases</div>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Overdue CAPA</div>
+                    <div class="kpi-value">03</div>
+                    <div class="kpi-note">Requires action</div>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Avg. Closure</div>
+                    <div class="kpi-value">8.4d</div>
+                    <div class="kpi-note">Complaint closure</div>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Effectiveness</div>
+                    <div class="kpi-value">92%</div>
+                    <div class="kpi-note">Verified effective</div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= CHARTS ================= -->
+
+            <div class="report-grid">
+
+                <!-- MONTHLY COMPLAINT TREND -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h2>Monthly Complaint Trend</h2>
+                        <span>FY 2026-27</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="bar-chart">
+
+                            <div class="bar-column">
+                                <span class="bar-value">3</span>
+                                <div class="bar" style="height: 30%;"></div>
+                                <span class="bar-label">Apr</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">5</span>
+                                <div class="bar" style="height: 50%;"></div>
+                                <span class="bar-label">May</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">4</span>
+                                <div class="bar" style="height: 40%;"></div>
+                                <span class="bar-label">Jun</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">6</span>
+                                <div class="bar" style="height: 60%;"></div>
+                                <span class="bar-label">Jul</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">4</span>
+                                <div class="bar" style="height: 40%;"></div>
+                                <span class="bar-label">Aug</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">2</span>
+                                <div class="bar" style="height: 20%;"></div>
+                                <span class="bar-label">Sep</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMPLAINT CLASSIFICATION -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h2>Complaint Classification</h2>
+                        <span>24 Total</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="donut-area">
+
+                            <div class="donut">
+
+                                <div class="donut-center">
+                                    <strong>24</strong>
+                                    <span>Complaints</span>
+                                </div>
+
+                            </div>
+
+                            <div class="legend">
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-1"></span>
+                                    Service Quality — 10
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-2"></span>
+                                    Documentation — 5
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-3"></span>
+                                    Shipment Handling — 4
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-4"></span>
+                                    Other — 5
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CAPA PERFORMANCE ================= -->
+
+            <div class="panel full-panel">
+
+                <div class="panel-header">
+
+                    <h2>CAPA Performance</h2>
+
+                    <span>Current financial year</span>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Metric</th>
+                                <th>Target</th>
+                                <th>Actual</th>
+                                <th>Variance</th>
+                                <th>Current Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>CAPA completed within target date</td>
+                                <td>≥ 90%</td>
+                                <td class="number">83%</td>
+                                <td class="trend-up">-7%</td>
+                                <td>Attention Required</td>
+                            </tr>
+
+                            <tr>
+                                <td>Investigation completed within target</td>
+                                <td>≥ 95%</td>
+                                <td class="number">94%</td>
+                                <td class="trend-up">-1%</td>
+                                <td>Monitoring</td>
+                            </tr>
+
+                            <tr>
+                                <td>Effectiveness checks completed</td>
+                                <td>≥ 90%</td>
+                                <td class="number">92%</td>
+                                <td class="trend-down">+2%</td>
+                                <td>On Track</td>
+                            </tr>
+
+                            <tr>
+                                <td>CAPA recurrence rate</td>
+                                <td>≤ 5%</td>
+                                <td class="number">3.8%</td>
+                                <td class="trend-down">-1.2%</td>
+                                <td>On Track</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CATEGORY ANALYSIS ================= -->
+
+            <div class="report-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h2>Top Complaint Categories</h2>
+                        <span>YTD</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="bar-chart">
+
+                            <div class="bar-column">
+                                <span class="bar-value">10</span>
+                                <div class="bar" style="height: 100%;"></div>
+                                <span class="bar-label">Service</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">5</span>
+                                <div class="bar" style="height: 50%;"></div>
+                                <span class="bar-label">Docs</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">4</span>
+                                <div class="bar" style="height: 40%;"></div>
+                                <span class="bar-label">Handling</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">3</span>
+                                <div class="bar" style="height: 30%;"></div>
+                                <span class="bar-label">Delivery</span>
+                            </div>
+
+                            <div class="bar-column">
+                                <span class="bar-value">2</span>
+                                <div class="bar" style="height: 20%;"></div>
+                                <span class="bar-label">Other</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h2>CAPA Status Distribution</h2>
+                        <span>18 Total</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="donut-area">
+
+                            <div
+                                class="donut"
+                                style="
+                                    background:
+                                    conic-gradient(
+                                        #3c6f9f 0deg 100deg,
+                                        #7d9cba 100deg 220deg,
+                                        #b6c7d8 220deg 300deg,
+                                        #dce5ed 300deg 360deg
+                                    );
+                                "
+                            >
+
+                                <div class="donut-center">
+                                    <strong>18</strong>
+                                    <span>CAPA</span>
+                                </div>
+
+                            </div>
+
+                            <div class="legend">
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-1"></span>
+                                    Open — 5
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-2"></span>
+                                    In Progress — 6
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-3"></span>
+                                    Effectiveness — 4
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-dot dot-4"></span>
+                                    Closed — 3
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= DATA NOTE ================= -->
+
+            <div class="info-note">
+
+                Report figures displayed in this frontend version are sample data.
+                After Apps Script integration, the selected financial year, period,
+                module and category will query the live Google Sheets records.
+                The same reporting layer can then calculate trends, ageing,
+                closure performance, overdue actions, recurrence and effectiveness
+                metrics automatically.
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* ================= FILTERS ================= */
+
+    function applyFilters() {
+
+        const fy =
+            document.getElementById("fy").value;
+
+        const period =
+            document.getElementById("period").value;
+
+        const module =
+            document.getElementById("module").value;
+
+        const category =
+            document.getElementById("category").value;
+
+        alert(
+            "Report filters applied.\n\n" +
+            "Financial Year: " + fy + "\n" +
+            "Period: " + period + "\n" +
+            "Module: " + module + "\n" +
+            "Category: " + category +
+            "\n\nLive report calculation will be connected to Apps Script."
+        );
+    }
+
+
+    /* ================= LOGOUT ================= */
+
+    function logout() {
+
+        if (confirm("Are you sure you want to logout?")) {
+
+            window.location.href = "index.html";
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
+```
